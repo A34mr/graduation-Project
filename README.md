@@ -1,4 +1,4 @@
 # graduation-Project
-<hi>Dental Clinic Website
-Using Artificial Intelligence<\hi> 
+<h1>Dental Clinic Website
+Using Artificial Intelligence<\h1> 
 for graduation Project
