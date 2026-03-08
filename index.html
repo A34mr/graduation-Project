@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,3 +12,70 @@
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dent AI - Doctor Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <h2>Dent AI</h2>
+</nav>
+
+<h1>Doctor Dashboard</h1>
+
+<!-- ================= Dashboard ================= -->
+
+<section class="dashboard">
+
+    <div class="stats">
+        <div class="stat-card">
+            <h3>Total Appointments</h3>
+            <p id="totalAppointments">0</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>Completed</h3>
+            <p id="completedCount">0</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>Pending</h3>
+            <p id="pendingCount">0</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>Total Revenue</h3>
+            <p id="totalRevenue">$0</p>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="revenueChart"></canvas>
+    </div>
+
+</section>
+
+<!-- ================= Appointments ================= -->
+
+<h2 class="section-title">Today's Appointments</h2>
+
+<div id="appointments" class="appointments-container">
+</div>
+
+<audio id="notifySound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+>>>>>>> 21ac30ab57f56a8fa95ec2e23b770835049a65e7
