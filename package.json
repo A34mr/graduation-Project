@@ -1,5 +1,6 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.2.0",
     "lucide-react": "^0.576.0",
@@ -52,5 +53,34 @@
     "postcss-safe-parser": "^7.0.1",
 >>>>>>> 6b14c3b868c7bf6bc3047f48582edd92e607a8cc
     "tailwindcss": "^4.2.1"
+=======
+  "name": "my-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "vite": "^8.0.0-beta.13"
+  },
+  "overrides": {
+    "vite": "^8.0.0-beta.13"
+>>>>>>> 1b25b314dea5f266726a6087b91c6f064a70e5a9
   }
 }
