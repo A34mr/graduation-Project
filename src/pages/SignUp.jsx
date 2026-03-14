@@ -243,7 +243,6 @@ export default function SignUp() {
                     ))}
                   </div>
                 </div>
-                {field("Consultation Price ($)", "price", "number")}
               </>}
 
               {/* Clinic Fields */}
