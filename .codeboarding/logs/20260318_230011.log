@@ -1,0 +1,24 @@
+2026-03-18 23:00:14 WARNING  [static_analyzer:31] Unsupported programming language: CSS. Skipping.
+2026-03-18 23:00:14 WARNING  [static_analyzer:31] Unsupported programming language: HTML. Skipping.
+2026-03-18 23:00:14 WARNING  [static_analyzer:31] Unsupported programming language: JSON. Skipping.
+2026-03-18 23:00:15 WARNING  [static_analyzer.typescript_config_scanner:50] No TypeScript configuration files found in C:\Users\Hp ETC\graduation Project
+2026-03-18 23:00:15 INFO     [static_analyzer:57] No TypeScript config files found, using repository root
+2026-03-18 23:00:15 INFO     [static_analyzer:141] Starting LSP client for JSX
+2026-03-18 23:00:15 INFO     [static_analyzer.lsp_client.client:139] Starting server C:\Users\Hp ETC\AppData\Local\Programs\Qoder\Qoder.exe C:\Users\Hp ETC\.codeboarding\servers\node_modules\typescript-language-server\lib\cli.mjs --stdio --log-level=2...
+2026-03-18 23:00:15 INFO     [static_analyzer.lsp_client.client:411] Initializing connection for jsx...
+2026-03-18 23:00:15 WARNING  [static_analyzer.lsp_client.language_settings:96] Unknown language ID: jsx. No LSP settings available.
+2026-03-18 23:00:16 INFO     [static_analyzer.lsp_client.client:446] Initialization successful.
+2026-03-18 23:00:16 WARNING  [static_analyzer.lsp_client.language_settings:96] Unknown language ID: jsx. No LSP settings available.
+2026-03-18 23:00:16 INFO     [static_analyzer:141] Starting LSP client for JavaScript
+2026-03-18 23:00:16 INFO     [static_analyzer.lsp_client.typescript_client:44] node_modules found at: C:\Users\Hp ETC\graduation Project\node_modules
+2026-03-18 23:00:16 INFO     [static_analyzer.lsp_client.client:139] Starting server C:\Users\Hp ETC\AppData\Local\Programs\Qoder\Qoder.exe C:\Users\Hp ETC\.codeboarding\servers\node_modules\typescript-language-server\lib\cli.mjs --stdio --log-level=2...
+2026-03-18 23:00:16 INFO     [static_analyzer.lsp_client.typescript_client:57] Initializing connection for javascript...
+2026-03-18 23:00:16 INFO     [static_analyzer.lsp_client.typescript_client:88] Initialization successful.
+2026-03-18 23:00:20 INFO     [static_analyzer.lsp_client.typescript_client:115] Found 5 TypeScript/JavaScript files
+2026-03-18 23:00:20 INFO     [static_analyzer.lsp_client.typescript_client:156] Found configuration file: C:\Users\Hp ETC\graduation Project\package.json
+2026-03-18 23:00:20 INFO     [static_analyzer.lsp_client.typescript_client:167] Opening sample files to bootstrap TypeScript project...
+2026-03-18 23:00:20 INFO     [static_analyzer.lsp_client.typescript_client:186] Waiting 5s for TypeScript server to initialize project...
+2026-03-18 23:00:25 INFO     [static_analyzer.lsp_client.typescript_client:191] TypeScript project successfully loaded!
+2026-03-18 23:00:25 INFO     [static_analyzer.lsp_client.client:460] Sending workspace configuration for javascript...
+2026-03-18 23:00:25 INFO     [static_analyzer.lsp_client.client:468] Workspace configuration sent for javascript
+2026-03-18 23:00:25 INFO     [codeboarding_pro.session:108] Session 62949664-2c81-4d78-bb3d-2e89b57be1ab initialized: repo=c:\Users\Hp ETC\graduation Project, project=graduation Project, output=c:\Users\Hp ETC\graduation Project\.codeboarding
