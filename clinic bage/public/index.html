@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عيادة سمايل إيه آي - المشروع النهائي</title>
+
+    <!-- خطوط جوجل -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- أيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- كود التنسيقات (CSS) -->
+    <style>
+        /* --- إعدادات عامة --- */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+        /* --- الشريط العلوي (Navbar) --- */
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: #1e40af;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-menu li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .nav-menu li a:hover {
+            color: #1e40af;
+        }
+        
+        .btn-nav {
+            background: #1e40af;
+            color: white !important;
+            padding: 10px 25px;
+            border-radius: 25px;
+        }
+        /* زر الموبايل */
+        
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #1e40af;
+        }
+        /* --- قسم البداية (Hero) --- */
+        
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            color: white;
+            padding: 50px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 25px;
+            line-height: 1.2;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero p {
+            font-size: 22px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+        
+        .hero-btns a {
+            text-decoration: none;
+            padding: 18px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            margin: 10px;
+            display: inline-block;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #1e40af;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .hero-btns a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        /* --- أقسام عامة --- */
+        
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 40px;
+            color: #1e3a8a;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        
+        .section-title p {
+            color: #666;
+            font-size: 18px;
+        }
+        /* --- قسم من نحن --- */
+        
+        .about-grid {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        
+        .about-content {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-content h3 {
+            font-size: 32px;
+            color: #1e40af;
+            margin-bottom: 20px;
+        }
+        
+        .about-content p {
+            color: #555;
+            margin-bottom: 25px;
+            font-size: 17px;
+        }
+        
+        .features-list {
+            list-style: none;
+        }
+        
+        .features-list li {
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .features-list i {
+            color: #10b981;
+            font-size: 20px;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .image-placeholder {
+            background: #eff6ff;
+            height: 400px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #1e40af;
+            font-size: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .image-placeholder i {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+        /* --- قسم الخدمات --- */
+        
+        .services-section {
+            background: #f8fafc;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: 0.3s;
+            border-bottom: 5px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-bottom: 5px solid #3b82f6;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: #eff6ff;
+            border-radius: 50%;
+            color: #1e40af;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            transition: 0.3s;
+        }
+        
+        .service-card:hover .service-icon {
+            background: #1e40af;
+            color: white;
+        }
+        
+        .service-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .service-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .service-price {
+            color: #10b981;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        /* --- قسم الأطباء --- */
+        
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .doctor-card {
+            background: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .doctor-img-placeholder {
+            width: 120px;
+            height: 120px;
+            background: #1e40af;
+            color: white;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+        
+        .doctor-card h3 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 22px;
+        }
+        
+        .doctor-card span {
+            color: #666;
+            font-size: 15px;
+        }
+        /* --- قسم فريق المشروع --- */
+        
+        .team-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%233b82f6' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .team-section .section-title h2 {
+            color: #ffffff;
+        }
+        
+        .team-section .section-title p {
+            color: #94a3b8;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .team-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px 25px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .team-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        
+        .team-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .team-card:hover .team-avatar {
+            transform: scale(1.1);
+        }
+        
+        .team-avatar::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            animation: rotate 10s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .team-card h3 {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .team-card .title {
+            color: #60a5fa;
+            font-size: 14px;
+            font-weight: 600;
+            background: rgba(59, 130, 246, 0.15);
+            padding: 6px 16px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .team-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto 0;
+            color: #60a5fa;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .team-card:hover .team-icon {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .team-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #0f172a;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 15px;
+        }
+        /* --- قسم التواصل --- */
+        
+        .contact-grid {
+            display: flex;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-info h2 {
+            margin-bottom: 20px;
+            color: #1e3a8a;
+            font-size: 32px;
+        }
+        
+        .contact-info>p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+        
+        .contact-info ul {
+            list-style: none;
+        }
+        
+        .contact-info li {
+            margin-bottom: 20px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .contact-info i {
+            color: #3b82f6;
+            width: 20px;
+            font-size: 22px;
+        }
+        /* أرقام فريق المشروع */
+        
+        .team-contacts {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px dashed #e2e8f0;
+        }
+        
+        .team-contacts h3 {
+            color: #1e40af;
+            font-size: 22px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .team-contacts h3 i {
+            color: #8b5cf6;
+        }
+        
+        .team-phones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .phone-item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .phone-item:hover {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            transform: translateX(-5px);
+        }
+        
+        .phone-item i {
+            color: #10b981;
+            font-size: 18px;
+        }
+        
+        .phone-item .name {
+            font-weight: 700;
+            color: #333;
+            font-size: 15px;
+        }
+        
+        .phone-item .number {
+            color: #666;
+            font-size: 14px;
+            direction: ltr;
+        }
+        
+        .contact-map {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .map-placeholder {
+            background: #e2e8f0;
+            height: 100%;
+            min-height: 300px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+        }
+        /* --- الفوتر --- */
+        
+        .footer {
+            background: #111827;
+            color: white;
+            padding: 50px 0 0 0;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-col h4 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #60a5fa;
+        }
+        
+        .footer-col p,
+        .footer-col a {
+            color: #9ca3af;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #1f2937;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-left: 10px;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: #3b82f6;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #374151;
+            padding: 20px;
+            color: #6b7280;
+        }
+        /* --- زر الواتساب --- */
+        
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 60px;
+            font-size: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(37, 211, 102, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+        /* --- تنسيقات الموبايل --- */
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
+            .nav-menu.active {
+                display: flex;
+            }
+            .nav-menu li a {
+                margin: 10px 0;
+                display: block;
+            }
+            .hero h1 {
+                font-size: 36px;
+            }
+            .hero p {
+                font-size: 18px;
+            }
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            .team-phones {
+                grid-template-columns: 1fr;
+            }
+            .section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- الشريط العلوي -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-tooth"></i> Smile AI
+            </a>
+
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#about">من نحن</a></li>
+                <li><a href="#services">خدماتنا</a></li>
+                <li><a href="#doctors">الأطباء</a></li>
+                <li><a href="#team">فريق المشروع</a></li>
+                <li><a href="booking.html" class="btn-nav">احجز موعدك</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- قسم البداية (Hero) -->
+    <header class="hero" id="home">
+        <div class="container hero-content">
+            <h1>ابتسامتك تبدأ هنا <br> بتقنية الذكاء الاصطناعي</h1>
+            <p>نقدم أحدث تقنيات طب الأسنان لتشخيص دقيق وعلاج آمن. احصل على ابتسامة هوليود مع أفضل الأطباء.</p>
+            <div class="hero-btns">
+                <a href="booking.html" class="btn-primary">احجز موعدك الآن</a>
+                <a href="#services" class="btn-secondary">اكتشف خدماتنا</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- قسم من نحن -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>لماذا تختار عيادتنا؟</h2>
+                <p>نحن نجمع بين الخبرة الإنسانية والدقة الرقمية</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-content">
+                    <h3>رؤيتنا في العلاج</h3>
+                    <p>نحن نؤمن بأن كل مريض يستحق رعاية استثنائية. نستخدم أحدث أجهزة المسح الضوئي ثلاثي الأبعاد وتقنيات الذكاء الاصطناعي لتصميم خطة علاجية دقيقة 100%.</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> تعقيم كامل بدرجة مستشفيات</li>
+                        <li><i class="fas fa-check-circle"></i> أطباء استشاريون متخصصون</li>
+                        <li><i class="fas fa-check-circle"></i> أجهزة تشخيص بالذكاء الاصطناعي</li>
+                        <li><i class="fas fa-check-circle"></i> ضمان مدى الحياة على الزراعة</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <div class="image-placeholder">
+                        <i class="fas fa-x-ray"></i>
+                        <span>صورة العيادة الحديثة</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الخدمات -->
+    <section class="section services-section" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>خدماتنا المميزة</h2>
+                <p>حلول شاملة لجميع مشاكل الأسنان</p>
+            </div>
+            <div class="services-grid">
+                <!-- خدمة 1 -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-teeth"></i></div>
+                    <h3>ابتسامة هوليود</h3>
+                    <p>تصميم ابتسامة رقمية باستخدام عدسات لومينيرز وفينير خزفية رقيقة للحصول على أسنان بيضاء ناصعة.</p>
+                    <span class="service-price">يبدأ من 5000 جنيه</span>
+                </div>
+                <!-- خدمة 2 -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-tooth"></i></div>
+                    <h3>زراعة الأسنان</h3>
+                    <p>زراعة تيتانيوم ألمانية وكورية عالية الجودة مع ضمان مدى الحياة وإجراءات تعقيم صارمة.</p>
+                    <span class="service-price">يبدأ من 8000 جنيه</span>
+                </div>
+                <!-- خدمة 3 -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-smile"></i></div>
+                    <h3>تقويم الأسنان الشفاف</h3>
+                    <p>تقويم انفيزلاين (Invisalign) بدون أسلاك معدنية لتعديل الأسنان بسرية تامة وراحة كاملة.</p>
+                    <span class="service-price">استشارة مجانية</span>
+                </div>
+                <!-- خدمة 4 -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-magic"></i></div>
+                    <h3>تبييض الأسنان بالليزر</h3>
+                    <p>جلسة تبييض سريعة (60 دقيقة) للحصول على أسنان بيضاء بدرجات متعددة مع نتائج فورية.</p>
+                    <span class="service-price">1500 جنيه / جلسة</span>
+                </div>
+                <!-- خدمة 5 -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-user-md"></i></div>
+                    <h3>علاج الجذور (العصب)</h3>
+                    <p>علاج جذور تحت الميكروسكوب الجراحي لضمان إزالة كاملة للالتهابات وبدون ألم.</p>
+                    <span class="service-price">يبدأ من 1200 جنيه</span>
+                </div>
+                <!-- خدمة 6 -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-child"></i></div>
+                    <h3>طب أسنان الأطفال</h3>
+                    <p>قسم خاص للأطفال ببيئة مريحة وأطباء متخصصين في التعامل مع صغار السن بلطف.</p>
+                    <span class="service-price">حجز متاح الآن</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الأطباء -->
+    <section class="section" id="doctors">
+        <div class="container">
+            <div class="section-title">
+                <h2>فريق أطبائنا</h2>
+                <p>خبرة تتجاوز 50 عاماً مجتمعة</p>
+            </div>
+            <div class="doctors-grid">
+                <div class="doctor-card">
+                    <div class="doctor-img-placeholder"><i class="fas fa-user-md"></i></div>
+                    <h3>د. أحمد سمير</h3>
+                    <span>استشاري جراحة الفم والفكين</span>
+                </div>
+                <div class="doctor-card">
+                    <div class="doctor-img-placeholder" style="background: #db2777;"><i class="fas fa-user-md"></i></div>
+                    <h3>د. سارة محمود</h3>
+                    <span>أخصائية تقويم وتجميل الأسنان</span>
+                </div>
+                <div class="doctor-card">
+                    <div class="doctor-img-placeholder" style="background: #059669;"><i class="fas fa-user-md"></i></div>
+                    <h3>د. محمد علي</h3>
+                    <span>خبير زراعة الأسنان والتقنيات الرقمية</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم فريق المشروع -->
+    <section class="section team-section" id="team">
+        <div class="container">
+            <div class="section-title">
+                <h2>فريق تطوير المشروع</h2>
+                <p>مشروع تخرج 2026 - كلية الهندسة قسم الحاسبات والذكاء الاصطناعي جامعه eelu</p>
+            </div>
+            <div class="team-grid">
+                <!-- مهندس يوسف عادل -->
+                <div class="team-card">
+                    <span class="team-badge"><i class="fas fa-star"></i> Team Lead</span>
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>م. عمرو حمدي</h3>
+                    <span class="title">مهندس برمجيات</span>
+                    <div class="team-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                </div>
+
+                <!-- مهندس عمرو حمدي -->
+                <div class="team-card">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>م. يوسف عادل</h3>
+                    <span class="title">مهندس برمجيات</span>
+                    <div class="team-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                </div>
+
+                <!-- مهندس ادهم محمد -->
+                <div class="team-card">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #ec4899, #be185d);">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>م. ادهم محمد</h3>
+                    <span class="title">مهندس برمجيات</span>
+                    <div class="team-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                </div>
+
+                <!-- مهندس امير علي -->
+                <div class="team-card">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>م. امير علي</h3>
+                    <span class="title">مهندس برمجيات</span>
+                    <div class="team-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                </div>
+
+                <!-- مهندس بلال ياسر -->
+                <div class="team-card">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #10b981, #047857);">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>م. بلال ياسر</h3>
+                    <span class="title">مهندس برمجيات</span>
+                    <div class="team-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                </div>
+
+                <!-- مهندس جورج جرجس -->
+                <div class="team-card">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #ef4444, #b91c1c);">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>م. جورج جرجس</h3>
+                    <span class="title">مهندس برمجيات</span>
+                    <div class="team-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                </div>
+
+                <!-- مهندس جورج هاني -->
+                <div class="team-card">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>م. جورج هاني</h3>
+                    <span class="title">مهندس برمجيات</span>
+                    <div class="team-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم التواصل -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>تواصل معنا</h2>
+                    <p>نحن هنا للإجابة على استفساراتكم على مدار الساعة.</p>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i>القاهره - قنا</li>
+                        <li><i class="fas fa-phone-alt"></i> 01152286284 - 0225896321</li>
+                        <li><i class="fas fa-clock"></i> مواعيد العمل: من السبت للخميس (2م - 10م)</li>
+                    </ul>
+
+                    <!-- أرقام فريق المشروع -->
+                    <div class="team-contacts">
+                        <h3><i class="fas fa-users"></i> أرقام فريق المشروع</h3>
+                        <div class="team-phones">
+                            <div class="phone-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <div class="name">م. يوسف عادل</div>
+                                    <div class="number">01152286284</div>
+                                </div>
+                            </div>
+                            <div class="phone-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <div class="name">م. عمرو حمدي</div>
+                                    <div class="number">01153427931</div>
+                                </div>
+                            </div>
+                            <div class="phone-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <div class="name">م. امير علي</div>
+                                    <div class="number">01012793990</div>
+                                </div>
+                            </div>
+                            <div class="phone-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <div class="name">م. ادهم محمد</div>
+                                    <div class="number">01067133442</div>
+                                </div>
+                            </div>
+                            <div class="phone-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <div class="name">م. بلال ياسر</div>
+                                    <div class="number">01212702595</div>
+                                </div>
+                            </div>
+                            <div class="phone-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <div class="name">م. جورج جرجس</div>
+                                    <div class="number">01204426229</div>
+                                </div>
+                            </div>
+                            <div class="phone-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <div class="name">م. جورج هاني</div>
+                                    <div class="number">01229826854</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-map">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marked-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
+                        <span>موقع العيادة على الخريطة</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <h4>Smile AI Clinic</h4>
+                <p>مستقبل طب الأسنان بالذكاء الاصطناعي. مشروع تخرج 2026.</p>
+            </div>
+            <div class="footer-col">
+                <h4>روابط سريعة</h4>
+                <a href="#services">خدماتنا</a>
+                <a href="#doctors">فريق العمل</a>
+                <a href="#team">فريق المشروع</a>
+                <a href="booking.html">الحجز</a>
+            </div>
+            <div class="footer-col">
+                <h4>تابعنا</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 جميع الحقوق محفوظة لعيادة سمايل إيه آي 🎓</p>
+        </div>
+    </footer>
+
+    <!-- زر واتساب عائم -->
+    <a href="https://wa.me/201152286284" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- كود الجافاسكريبت (JS) -->
+    <script>
+        // 1. تفعيل القائمة في الموبايل
+        const menuToggle = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+        }
+
+        // 2. إغلاق القائمة لما نضغط على أي لينك
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // 3. تأثير التمرير الناعم (Smooth Scroll)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
