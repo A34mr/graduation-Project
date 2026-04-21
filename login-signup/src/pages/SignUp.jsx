@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const steps = ["Account Type", "Your Details"];
 
@@ -168,7 +169,7 @@ export default function SignUp() {
                 Continue →
               </button>
               <p style={{ textAlign: "center", marginTop: 18, fontSize: 14, color: "#7a8fa6" }}>
-                Already have an account? <a href="#" style={{ color: "#1d6fa4", fontWeight: 700, textDecoration: "none" }}>Login</a>
+                Already have an account? <Link to="/" style={{ color: "#1d6fa4", fontWeight: 700, textDecoration: "none" }}>Login</Link>
               </p>
             </div>
           )}
