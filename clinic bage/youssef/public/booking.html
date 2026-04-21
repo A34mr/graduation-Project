@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>احجز موعدك - عيادة سمايل إيه آي</title>
+    <title>Dent A</title>
 
-    <!-- خطوط جوجل -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <!-- أيقونات -->
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- كود التنسيقات (CSS) -->
+    <!-- CSS Styles -->
     <style>
-        /* --- إعدادات عامة --- */
+        /* --- General Settings --- */
         
         * {
             margin: 0;
@@ -34,7 +34,7 @@
             margin: auto;
             padding: 0 20px;
         }
-        /* --- الشريط العلوي (Navbar) --- */
+        /* --- Navbar --- */
         
         .navbar {
             background-color: white;
@@ -89,7 +89,7 @@
         .btn-nav.active {
             background: #10b981;
         }
-        /* زر الموبايل */
+        /* Mobile Toggle */
         
         .menu-toggle {
             display: none;
@@ -97,7 +97,7 @@
             cursor: pointer;
             color: #1e40af;
         }
-        /* --- صفحة الحجز --- */
+        /* --- Booking Page --- */
         
         .booking-page {
             padding: 60px 0;
@@ -127,7 +127,7 @@
             gap: 40px;
             align-items: start;
         }
-        /* --- نموذج الحجز --- */
+        /* --- Booking Form --- */
         
         .booking-form {
             background: white;
@@ -203,7 +203,7 @@
             resize: vertical;
             min-height: 120px;
         }
-        /* اختيار الخدمة */
+        /* Services Select */
         
         .services-select {
             display: grid;
@@ -245,7 +245,7 @@
         .service-option label:hover {
             border-color: #93c5fd;
         }
-        /* اختيار الطبيب */
+        /* Doctors Select */
         
         .doctors-select {
             display: grid;
@@ -302,45 +302,7 @@
             border-color: #3b82f6;
             background: #eff6ff;
         }
-        /* اختيار الوقت */
-        
-        .time-slots {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-        
-        .time-slot {
-            position: relative;
-        }
-        
-        .time-slot input {
-            position: absolute;
-            opacity: 0;
-        }
-        
-        .time-slot label {
-            display: block;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: #f8fafc;
-            text-align: center;
-            font-weight: 600;
-        }
-        
-        .time-slot input:checked+label {
-            border-color: #10b981;
-            background: #d1fae5;
-            color: #047857;
-        }
-        
-        .time-slot label:hover {
-            border-color: #6ee7b7;
-        }
-        /* زر الإرسال */
+        /* Submit Button */
         
         .submit-btn {
             width: 100%;
@@ -368,7 +330,7 @@
         .submit-btn i {
             font-size: 22px;
         }
-        /* --- معلومات الجانب --- */
+        /* --- Side Info --- */
         
         .booking-info {
             position: sticky;
@@ -434,7 +396,7 @@
             font-size: 14px;
             color: #666;
         }
-        /* الخدمات السريعة */
+        /* Quick Services */
         
         .quick-services {
             display: flex;
@@ -450,7 +412,7 @@
             font-size: 13px;
             font-weight: 600;
         }
-        /* زر واتساب طوارئ */
+        /* Emergency WhatsApp */
         
         .emergency-btn {
             display: flex;
@@ -475,7 +437,7 @@
         .emergency-btn i {
             font-size: 22px;
         }
-        /* --- رسالة النجاح --- */
+        /* --- Success Message --- */
         
         .success-message {
             display: none;
@@ -531,7 +493,7 @@
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 30px;
-            text-align: right;
+            text-align: left;
         }
         
         .success-details h4 {
@@ -565,7 +527,7 @@
             background: #1e3a8a;
             transform: translateY(-2px);
         }
-        /* --- تنسيقات الموبايل --- */
+        /* --- Mobile Styles --- */
         
         @media (max-width: 992px) {
             .booking-container {
@@ -585,7 +547,7 @@
                 display: none;
                 position: absolute;
                 top: 100%;
-                right: 0;
+                left: 0;
                 width: 100%;
                 background: white;
                 flex-direction: column;
@@ -612,9 +574,6 @@
             .doctors-select {
                 grid-template-columns: 1fr;
             }
-            .time-slots {
-                grid-template-columns: repeat(2, 1fr);
-            }
             .booking-form {
                 padding: 25px;
             }
@@ -624,11 +583,11 @@
 
 <body>
 
-    <!-- الشريط العلوي -->
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <i class="fas fa-tooth"></i> Smile AI
+                <i class="fas fa-tooth"></i> Dent A
             </a>
 
             <div class="menu-toggle" id="mobile-menu">
@@ -636,252 +595,215 @@
             </div>
 
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="index.html">الرئيسية</a></li>
-                <li><a href="index.html#about">من نحن</a></li>
-                <li><a href="index.html#services">خدماتنا</a></li>
-                <li><a href="index.html#doctors">الأطباء</a></li>
-                <li><a href="booking.html" class="btn-nav active">احجز موعدك</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#doctors">Doctors</a></li>
+                <li><a href="booking.html" class="btn-nav active">Book Appointment</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- صفحة الحجز -->
+    <!-- Booking Page -->
     <section class="booking-page">
         <div class="container">
 
             <div class="booking-header">
-                <h1><i class="fas fa-calendar-check" style="color: #3b82f6;"></i> احجز موعدك الآن</h1>
-                <p>احجز موعدك بسهولة وسرعة، وسنتواصل معك للتأكيد خلال ساعات قليلة</p>
+                <h1><i class="fas fa-calendar-check" style="color: #3b82f6;"></i> Book Your Appointment Now</h1>
+                <p>Book your appointment easily and quickly, and we will contact you to confirm within a few hours</p>
             </div>
 
             <div class="booking-container">
 
-                <!-- نموذج الحجز -->
+                <!-- Booking Form -->
                 <div class="booking-form" id="bookingForm">
 
-                    <!-- البيانات الشخصية -->
+                    <!-- Personal Details -->
                     <div class="form-section">
-                        <h3><i class="fas fa-user"></i> البيانات الشخصية</h3>
+                        <h3><i class="fas fa-user"></i> Personal Details</h3>
                         <div class="form-row">
                             <div class="form-group">
-                                <label>الاسم الكامل <span>*</span></label>
-                                <input type="text" id="fullName" placeholder="أدخل اسمك بالكامل" required>
+                                <label>Full Name <span>*</span></label>
+                                <input type="text" id="fullName" placeholder="Enter your full name" required>
                             </div>
                             <div class="form-group">
-                                <label>رقم الهاتف <span>*</span></label>
+                                <label>Phone Number <span>*</span></label>
                                 <input type="tel" id="phone" placeholder="01xxxxxxxxx" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label>البريد الإلكتروني</label>
+                                <label>Email</label>
                                 <input type="email" id="email" placeholder="example@email.com">
                             </div>
                             <div class="form-group">
-                                <label>العمر</label>
-                                <input type="number" id="age" placeholder="العمر" min="1" max="120">
+                                <label>Age</label>
+                                <input type="number" id="age" placeholder="Age" min="1" max="120">
                             </div>
                         </div>
                     </div>
 
-                    <!-- اختيار الخدمة -->
+                    <!-- Required Service -->
                     <div class="form-section">
-                        <h3><i class="fas fa-tooth"></i> الخدمة المطلوبة</h3>
+                        <h3><i class="fas fa-tooth"></i> Required Service</h3>
                         <div class="services-select">
                             <div class="service-option">
-                                <input type="radio" name="service" id="service1" value="ابتسامة هوليود">
-                                <label for="service1"><i class="fas fa-teeth"></i> ابتسامة هوليود</label>
+                                <input type="radio" name="service" id="service1" value="Hollywood Smile">
+                                <label for="service1"><i class="fas fa-teeth"></i> Hollywood Smile</label>
                             </div>
                             <div class="service-option">
-                                <input type="radio" name="service" id="service2" value="زراعة الأسنان">
-                                <label for="service2"><i class="fas fa-tooth"></i> زراعة الأسنان</label>
+                                <input type="radio" name="service" id="service2" value="Dental Implants">
+                                <label for="service2"><i class="fas fa-tooth"></i> Dental Implants</label>
                             </div>
                             <div class="service-option">
-                                <input type="radio" name="service" id="service3" value="تقويم الأسنان">
-                                <label for="service3"><i class="fas fa-smile"></i> تقويم الأسنان</label>
+                                <input type="radio" name="service" id="service3" value="Orthodontics">
+                                <label for="service3"><i class="fas fa-smile"></i> Orthodontics</label>
                             </div>
                             <div class="service-option">
-                                <input type="radio" name="service" id="service4" value="تبييض الأسنان">
-                                <label for="service4"><i class="fas fa-magic"></i> تبييض الأسنان</label>
+                                <input type="radio" name="service" id="service4" value="Teeth Whitening">
+                                <label for="service4"><i class="fas fa-magic"></i> Teeth Whitening</label>
                             </div>
                             <div class="service-option">
-                                <input type="radio" name="service" id="service5" value="علاج الجذور">
-                                <label for="service5"><i class="fas fa-user-md"></i> علاج الجذور</label>
+                                <input type="radio" name="service" id="service5" value="Root Canal">
+                                <label for="service5"><i class="fas fa-user-md"></i> Root Canal</label>
                             </div>
                             <div class="service-option">
-                                <input type="radio" name="service" id="service6" value="حشوات تجميلية">
-                                <label for="service6"><i class="fas fa-fill"></i> حشوات تجميلية</label>
+                                <input type="radio" name="service" id="service6" value="Cosmetic Fillings">
+                                <label for="service6"><i class="fas fa-fill"></i> Cosmetic Fillings</label>
                             </div>
                             <div class="service-option">
-                                <input type="radio" name="service" id="service7" value="خلع الأسنان">
-                                <label for="service7"><i class="fas fa-hand-paper"></i> خلع الأسنان</label>
+                                <input type="radio" name="service" id="service7" value="Tooth Extraction">
+                                <label for="service7"><i class="fas fa-hand-paper"></i> Tooth Extraction</label>
                             </div>
                             <div class="service-option">
-                                <input type="radio" name="service" id="service8" value="استشارة عامة">
-                                <label for="service8"><i class="fas fa-stethoscope"></i> استشارة عامة</label>
+                                <input type="radio" name="service" id="service8" value="General Consultation">
+                                <label for="service8"><i class="fas fa-stethoscope"></i> General Consultation</label>
                             </div>
                         </div>
                     </div>
 
-                    <!-- اختيار الطبيب -->
+                    <!-- Choose Doctor -->
                     <div class="form-section">
-                        <h3><i class="fas fa-user-md"></i> اختر الطبيب</h3>
+                        <h3><i class="fas fa-user-md"></i> Choose Doctor</h3>
                         <div class="doctors-select">
                             <div class="doctor-option">
-                                <input type="radio" name="doctor" id="doctor1" value="د. أحمد سمير">
+                                <input type="radio" name="doctor" id="doctor1" value="Dr. Ahmed Samir">
                                 <label for="doctor1">
                                     <div class="doctor-icon"><i class="fas fa-user-md"></i></div>
-                                    <div class="doctor-name">د. أحمد سمير</div>
-                                    <div class="doctor-spec">جراحة الفم</div>
+                                    <div class="doctor-name">Dr. Ahmed Samir</div>
+                                    <div class="doctor-spec">Oral Surgery</div>
                                 </label>
                             </div>
                             <div class="doctor-option">
-                                <input type="radio" name="doctor" id="doctor2" value="د. سارة محمود">
+                                <input type="radio" name="doctor" id="doctor2" value="Dr. Sarah Mahmoud">
                                 <label for="doctor2">
                                     <div class="doctor-icon" style="background: #db2777;"><i class="fas fa-user-md"></i></div>
-                                    <div class="doctor-name">د. سارة محمود</div>
-                                    <div class="doctor-spec">تقويم وتجميل</div>
+                                    <div class="doctor-name">Dr. Sarah Mahmoud</div>
+                                    <div class="doctor-spec">Orthodontics & Cosmetics</div>
                                 </label>
                             </div>
                             <div class="doctor-option">
-                                <input type="radio" name="doctor" id="doctor3" value="د. محمد علي">
+                                <input type="radio" name="doctor" id="doctor3" value="Dr. Mohamed Ali">
                                 <label for="doctor3">
                                     <div class="doctor-icon" style="background: #059669;"><i class="fas fa-user-md"></i></div>
-                                    <div class="doctor-name">د. محمد علي</div>
-                                    <div class="doctor-spec">زراعة الأسنان</div>
+                                    <div class="doctor-name">Dr. Mohamed Ali</div>
+                                    <div class="doctor-spec">Dental Implants</div>
                                 </label>
                             </div>
                             <div class="doctor-option">
-                                <input type="radio" name="doctor" id="doctor4" value="أي طبيب متاح">
+                                <input type="radio" name="doctor" id="doctor4" value="Any Available Doctor">
                                 <label for="doctor4">
                                     <div class="doctor-icon" style="background: #8b5cf6;"><i class="fas fa-clock"></i></div>
-                                    <div class="doctor-name">أي طبيب متاح</div>
-                                    <div class="doctor-spec">أقرب موعد</div>
+                                    <div class="doctor-name">Any Available Doctor</div>
+                                    <div class="doctor-spec">Earliest Appointment</div>
                                 </label>
                             </div>
                         </div>
                     </div>
 
-                    <!-- الموعد -->
+                    <!-- Appointment Date -->
                     <div class="form-section">
-                        <h3><i class="fas fa-calendar-alt"></i> الموعد المناسب</h3>
+                        <h3><i class="fas fa-calendar-alt"></i> Appointment Date</h3>
                         <div class="form-row">
-                            <div class="form-group">
-                                <label>التاريخ <span>*</span></label>
+                            <div class="form-group" style="width: 100%;">
+                                <label>Date <span>*</span></label>
                                 <input type="date" id="bookingDate" required>
                             </div>
-                            <div class="form-group">
-                                <label>اختر الوقت</label>
-                                <div class="time-slots">
-                                    <div class="time-slot">
-                                        <input type="radio" name="time" id="time1" value="02:00 م">
-                                        <label for="time1">02:00 م</label>
-                                    </div>
-                                    <div class="time-slot">
-                                        <input type="radio" name="time" id="time2" value="03:00 م">
-                                        <label for="time2">03:00 م</label>
-                                    </div>
-                                    <div class="time-slot">
-                                        <input type="radio" name="time" id="time3" value="04:00 م">
-                                        <label for="time3">04:00 م</label>
-                                    </div>
-                                    <div class="time-slot">
-                                        <input type="radio" name="time" id="time4" value="05:00 م">
-                                        <label for="time4">05:00 م</label>
-                                    </div>
-                                    <div class="time-slot">
-                                        <input type="radio" name="time" id="time5" value="06:00 م">
-                                        <label for="time5">06:00 م</label>
-                                    </div>
-                                    <div class="time-slot">
-                                        <input type="radio" name="time" id="time6" value="07:00 م">
-                                        <label for="time6">07:00 م</label>
-                                    </div>
-                                    <div class="time-slot">
-                                        <input type="radio" name="time" id="time7" value="08:00 م">
-                                        <label for="time7">08:00 م</label>
-                                    </div>
-                                    <div class="time-slot">
-                                        <input type="radio" name="time" id="time8" value="09:00 م">
-                                        <label for="time8">09:00 م</label>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
-                    <!-- ملاحظات -->
+                    <!-- Additional Notes -->
                     <div class="form-section">
-                        <h3><i class="fas fa-comment-medical"></i> ملاحظات إضافية</h3>
+                        <h3><i class="fas fa-comment-medical"></i> Additional Notes</h3>
                         <div class="form-group">
-                            <textarea id="notes" placeholder="اكتب أي ملاحظات أو مشاكل تعاني منها..."></textarea>
+                            <textarea id="notes" placeholder="Write any notes or problems you are experiencing..."></textarea>
                         </div>
                     </div>
 
-                    <!-- زر الحجز -->
+                    <!-- Submit Button -->
                     <button type="submit" class="submit-btn" onclick="submitBooking(event)">
                         <i class="fas fa-check-circle"></i>
-                        تأكيد الحجز
+                        Confirm Booking
                     </button>
 
                 </div>
 
-                <!-- رسالة النجاح -->
+                <!-- Success Message -->
                 <div class="booking-form success-message" id="successMessage">
                     <div class="success-icon">
                         <i class="fas fa-check"></i>
                     </div>
-                    <h2>تم الحجز بنجاح!</h2>
-                    <p>شكراً لك، سيتم التواصل معك قريباً للتأكيد</p>
+                    <h2>Booking Successful!</h2>
+                    <p>Thank you, we will contact you shortly to confirm</p>
                     <div class="success-details" id="bookingDetails">
-                        <!-- سيتم ملؤها بالجافاسكريبت -->
+                        <!-- Filled by JS -->
                     </div>
                     <a href="index.html" class="back-btn">
-                        <i class="fas fa-home"></i> العودة للرئيسية
+                        <i class="fas fa-home"></i> Back to Home
                     </a>
                 </div>
 
-                <!-- معلومات جانبية -->
+                <!-- Side Information -->
                 <div class="booking-info">
                     <div class="info-card">
-                        <h3><i class="fas fa-info-circle"></i> معلومات مهمة</h3>
+                        <h3><i class="fas fa-info-circle"></i> Important Information</h3>
                         <div class="info-item">
                             <i class="fas fa-clock"></i>
                             <div class="info-item-content">
-                                <h4>ساعات العمل</h4>
-                                <p>السبت - الخميس<br>2:00 م - 10:00 م</p>
+                                <h4>Working Hours</h4>
+                                <p>Saturday - Thursday<br>2:00 PM - 10:00 PM</p>
                             </div>
                         </div>
                         <div class="info-item">
                             <i class="fas fa-phone-alt"></i>
                             <div class="info-item-content">
-                                <h4>للاستفسارات</h4>
+                                <h4>For Inquiries</h4>
                                 <p>01152286284<br>0225896321</p>
                             </div>
                         </div>
                         <div class="info-item">
                             <i class="fas fa-map-marker-alt"></i>
                             <div class="info-item-content">
-                                <h4>العنوان</h4>
-                                <p>15 شارع المهندسين، برج الأطباء، الدور الثالث، القاهرة</p>
+                                <h4>Address</h4>
+                                <p>15 El Mohandiseen St., Doctors Tower, 3rd Floor, Cairo</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="info-card">
-                        <h3><i class="fas fa-tooth"></i> خدماتنا</h3>
+                        <h3><i class="fas fa-tooth"></i> Our Services</h3>
                         <div class="quick-services">
-                            <span class="quick-service">ابتسامة هوليود</span>
-                            <span class="quick-service">زراعة الأسنان</span>
-                            <span class="quick-service">تقويم شفاف</span>
-                            <span class="quick-service">تبييض ليزر</span>
-                            <span class="quick-service">علاج العصب</span>
-                            <span class="quick-service">حشوات تجميلية</span>
+                            <span class="quick-service">Hollywood Smile</span>
+                            <span class="quick-service">Dental Implants</span>
+                            <span class="quick-service">Clear Aligners</span>
+                            <span class="quick-service">Laser Whitening</span>
+                            <span class="quick-service">Root Canal</span>
+                            <span class="quick-service">Cosmetic Fillings</span>
                         </div>
                     </div>
 
-                    <a href="https://wa.me/201152286284?text=مرحباً، أريد حجز موعد" class="emergency-btn" target="_blank">
-                        <i class="fab fa-whatsapp"></i> حجز عبر واتساب
+                    <a href="https://wa.me/201152286284?text=Hello, I would like to book an appointment" class="emergency-btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Book via WhatsApp
                     </a>
                 </div>
 
@@ -889,9 +811,9 @@
         </div>
     </section>
 
-    <!-- كود الجافاسكريبت (JS) -->
+    <!-- JS -->
     <script>
-        // 1. تفعيل القائمة في الموبايل
+        // 1. Mobile Menu
         const menuToggle = document.getElementById('mobile-menu');
         const navMenu = document.getElementById('nav-menu');
 
@@ -901,26 +823,30 @@
             });
         }
 
-        // 2. تحديد أقل تاريخ (اليوم)
+        // 2. Date Min
         const dateInput = document.getElementById('bookingDate');
         const today = new Date().toISOString().split('T')[0];
         dateInput.setAttribute('min', today);
 
-        // 3. تعطيل الجمعة من اختيار التاريخ
+        // 3. Disable Friday
         dateInput.addEventListener('change', function() {
             const selectedDate = new Date(this.value);
             const dayOfWeek = selectedDate.getDay();
-            if (dayOfWeek === 5) { // الجمعة
-                alert('عذراً، العيادة مغلقة يوم الجمعة');
+            if (dayOfWeek === 5) { // Friday
+                alert('Sorry, the clinic is closed on Fridays');
                 this.value = '';
             }
         });
 
-        // 4. دالة الحجز
+        function generateBookingID() {
+            return 'BKG-' + Math.floor(Math.random() * 1000000);
+        }
+
+        // 4. Booking
         function submitBooking(e) {
             e.preventDefault();
 
-            // جمع البيانات
+            // Gather Data
             const fullName = document.getElementById('fullName').value;
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
@@ -928,54 +854,51 @@
             const bookingDate = document.getElementById('bookingDate').value;
             const notes = document.getElementById('notes').value;
 
-            // التحقق من البيانات المطلوبة
+            // Validate
             if (!fullName || !phone || !bookingDate) {
-                alert('يرجى ملء جميع الحقول المطلوبة');
+                alert('Please fill all required fields');
                 return;
             }
 
-            // التحقق من اختيار الخدمة
             const selectedService = document.querySelector('input[name="service"]:checked');
             if (!selectedService) {
-                alert('يرجى اختيار الخدمة المطلوبة');
+                alert('Please select a required service');
                 return;
             }
 
-            // التحقق من اختيار الطبيب
             const selectedDoctor = document.querySelector('input[name="doctor"]:checked');
-            const doctor = selectedDoctor ? selectedDoctor.value : 'لم يتم التحديد';
+            const doctor = selectedDoctor ? selectedDoctor.value : 'Not Selected';
 
-            // التحقق من اختيار الوقت
-            const selectedTime = document.querySelector('input[name="time"]:checked');
-            const time = selectedTime ? selectedTime.value : 'لم يتم التحديد';
+            // Generate Booking ID
+            const bookingID = generateBookingID();
 
-            // تنسيق التاريخ
-            const formattedDate = new Date(bookingDate).toLocaleDateString('ar-EG', {
+            // Format Date
+            const formattedDate = new Date(bookingDate).toLocaleDateString('en-EG', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
             });
 
-            // عرض تفاصيل الحجز
+            // Display Details
             document.getElementById('bookingDetails').innerHTML = `
-                <h4><i class="fas fa-calendar-check" style="color: #10b981;"></i> تفاصيل الحجز</h4>
-                <p><strong>الاسم:</strong> ${fullName}</p>
-                <p><strong>الهاتف:</strong> ${phone}</p>
-                ${email ? `<p><strong>البريد:</strong> ${email}</p>` : ''}
-                ${age ? `<p><strong>العمر:</strong> ${age} سنة</p>` : ''}
-                <p><strong>الخدمة:</strong> ${selectedService.value}</p>
-                <p><strong>الطبيب:</strong> ${doctor}</p>
-                <p><strong>التاريخ:</strong> ${formattedDate}</p>
-                <p><strong>الوقت:</strong> ${time}</p>
-                ${notes ? `<p><strong>ملاحظات:</strong> ${notes}</p>` : ''}
+                <h4><i class="fas fa-calendar-check" style="color: #10b981;"></i> Booking Details</h4>
+                <p><strong>Booking Number:</strong> ${bookingID}</p>
+                <p><strong>Name:</strong> ${fullName}</p>
+                <p><strong>Phone:</strong> ${phone}</p>
+                ${email ? `<p><strong>Email:</strong> ${email}</p>` : ''}
+                ${age ? `<p><strong>Age:</strong> ${age} years</p>` : ''}
+                <p><strong>Service:</strong> ${selectedService.value}</p>
+                <p><strong>Doctor:</strong> ${doctor}</p>
+                <p><strong>Day:</strong> ${formattedDate}</p>
+                ${notes ? `<p><strong>Notes:</strong> ${notes}</p>` : ''}
             `;
 
-            // إخفاء النموذج وإظهار رسالة النجاح
+            // Hide form & show success
             document.getElementById('bookingForm').style.display = 'none';
             document.getElementById('successMessage').classList.add('show');
 
-            // التمرير لأعلى الصفحة
+            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>

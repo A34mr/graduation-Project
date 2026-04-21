@@ -1,15 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import './index.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Booking from "./Booking";
 
-// إنشاء نقطة الدخول للتطبيق
-const root = ReactDOM.createRoot(document.getElementById('root'));
+function App() {
+    return ( <
+        Router >
+        <
+        div className = "container" >
+        <
+        h1 > Welcome to Dentai Clinic < /h1> <
+        nav >
+        <
+        Link to = "/booking" > Book Appointment < /Link> < /
+        nav > <
+        Routes >
+        <
+        Route path = "/booking"
+        element = { < Booking / > }
+        /> < /
+        Routes > <
+        /div> < /
+        Router >
+    );
+}
 
-root.render( <
-    React.StrictMode >
-    <
-    App / >
-    <
-    /React.StrictMode>
-);
+export default App;

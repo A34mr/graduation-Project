@@ -393,7 +393,7 @@ function ClinicPage() {
         <nav className="navbar">
           <div className="nav-container">
             <a href="#home" className="logo">
-              <i className="fas fa-tooth"></i> Smile AI
+              <i className="fas fa-tooth"></i> Dent AI
             </a>
             
             <div className="menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -525,7 +525,7 @@ function ClinicPage() {
         <footer className="footer">
           <div className="container footer-content">
               <div className="footer-col">
-                <h4>Smile AI Clinic</h4>
+                <h4>Dent AI Clinic</h4>
                 <p>مشروع تخرج 2026 🎓</p>
               </div>
           </div>
