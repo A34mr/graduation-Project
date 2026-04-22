@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dent A</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS Styles -->
+    <style>
+        /* --- General Settings --- */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%);
+            color: #333;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+        /* --- Navbar --- */
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: #1e40af;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-menu li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .nav-menu li a:hover {
+            color: #1e40af;
+        }
+        
+        .btn-nav {
+            background: #1e40af;
+            color: white !important;
+            padding: 10px 25px;
+            border-radius: 25px;
+        }
+        
+        .btn-nav.active {
+            background: #10b981;
+        }
+        /* Mobile Toggle */
+        
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #1e40af;
+        }
+        /* --- Booking Page --- */
+        
+        .booking-page {
+            padding: 60px 0;
+            min-height: calc(100vh - 80px);
+        }
+        
+        .booking-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .booking-header h1 {
+            font-size: 42px;
+            color: #1e3a8a;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        
+        .booking-header p {
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .booking-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        /* --- Booking Form --- */
+        
+        .booking-form {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section h3 {
+            color: #1e40af;
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eff6ff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-section h3 i {
+            color: #3b82f6;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group label span {
+            color: #ef4444;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        /* Services Select */
+        
+        .services-select {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .service-option {
+            position: relative;
+        }
+        
+        .service-option input {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .service-option label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+        
+        .service-option label i {
+            font-size: 20px;
+            color: #3b82f6;
+        }
+        
+        .service-option input:checked+label {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .service-option label:hover {
+            border-color: #93c5fd;
+        }
+        /* Doctors Select */
+        
+        .doctors-select {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .doctor-option {
+            position: relative;
+        }
+        
+        .doctor-option input {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .doctor-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+            text-align: center;
+        }
+        
+        .doctor-option label .doctor-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #1e40af;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .doctor-option label .doctor-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .doctor-option label .doctor-spec {
+            font-size: 11px;
+            color: #666;
+        }
+        
+        .doctor-option input:checked+label {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        /* Submit Button */
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+        
+        .submit-btn i {
+            font-size: 22px;
+        }
+        /* --- Side Info --- */
+        
+        .booking-info {
+            position: sticky;
+            top: 100px;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+        
+        .info-card h3 {
+            color: #1e40af;
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-card h3 i {
+            color: #3b82f6;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        
+        .info-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .info-item i {
+            width: 40px;
+            height: 40px;
+            background: #eff6ff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3b82f6;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .info-item-content h4 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .info-item-content p {
+            font-size: 14px;
+            color: #666;
+        }
+        /* Quick Services */
+        
+        .quick-services {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .quick-service {
+            background: #f0f9ff;
+            color: #0369a1;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        /* Emergency WhatsApp */
+        
+        .emergency-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .emergency-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+        
+        .emergency-btn i {
+            font-size: 22px;
+        }
+        /* --- Success Message --- */
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 60px 40px;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            animation: bounce 0.6s ease;
+        }
+        
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        .success-icon i {
+            font-size: 50px;
+            color: white;
+        }
+        
+        .success-message h2 {
+            color: #047857;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        
+        .success-message p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .success-details {
+            background: #f0fdf4;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .success-details h4 {
+            color: #047857;
+            margin-bottom: 15px;
+        }
+        
+        .success-details p {
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        
+        .success-details strong {
+            color: #333;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1e40af;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: #1e3a8a;
+            transform: translateY(-2px);
+        }
+        /* --- Mobile Styles --- */
+        
+        @media (max-width: 992px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+            .booking-info {
+                position: static;
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
+            .nav-menu.active {
+                display: flex;
+            }
+            .nav-menu li a {
+                margin: 10px 0;
+                display: block;
+            }
+            .booking-header h1 {
+                font-size: 28px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .services-select {
+                grid-template-columns: 1fr;
+            }
+            .doctors-select {
+                grid-template-columns: 1fr;
+            }
+            .booking-form {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-tooth"></i> Dent A
+            </a>
+
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#doctors">Doctors</a></li>
+                <li><a href="booking.html" class="btn-nav active">Book Appointment</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Booking Page -->
+    <section class="booking-page">
+        <div class="container">
+
+            <div class="booking-header">
+                <h1><i class="fas fa-calendar-check" style="color: #3b82f6;"></i> Book Your Appointment Now</h1>
+                <p>Book your appointment easily and quickly, and we will contact you to confirm within a few hours</p>
+            </div>
+
+            <div class="booking-container">
+
+                <!-- Booking Form -->
+                <div class="booking-form" id="bookingForm">
+
+                    <!-- Personal Details -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-user"></i> Personal Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name <span>*</span></label>
+                                <input type="text" id="fullName" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number <span>*</span></label>
+                                <input type="tel" id="phone" placeholder="01xxxxxxxxx" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="email" placeholder="example@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Age</label>
+                                <input type="number" id="age" placeholder="Age" min="1" max="120">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Required Service -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-tooth"></i> Required Service</h3>
+                        <div class="services-select">
+                            <div class="service-option">
+                                <input type="radio" name="service" id="service1" value="Hollywood Smile">
+                                <label for="service1"><i class="fas fa-teeth"></i> Hollywood Smile</label>
+                            </div>
+                            <div class="service-option">
+                                <input type="radio" name="service" id="service2" value="Dental Implants">
+                                <label for="service2"><i class="fas fa-tooth"></i> Dental Implants</label>
+                            </div>
+                            <div class="service-option">
+                                <input type="radio" name="service" id="service3" value="Orthodontics">
+                                <label for="service3"><i class="fas fa-smile"></i> Orthodontics</label>
+                            </div>
+                            <div class="service-option">
+                                <input type="radio" name="service" id="service4" value="Teeth Whitening">
+                                <label for="service4"><i class="fas fa-magic"></i> Teeth Whitening</label>
+                            </div>
+                            <div class="service-option">
+                                <input type="radio" name="service" id="service5" value="Root Canal">
+                                <label for="service5"><i class="fas fa-user-md"></i> Root Canal</label>
+                            </div>
+                            <div class="service-option">
+                                <input type="radio" name="service" id="service6" value="Cosmetic Fillings">
+                                <label for="service6"><i class="fas fa-fill"></i> Cosmetic Fillings</label>
+                            </div>
+                            <div class="service-option">
+                                <input type="radio" name="service" id="service7" value="Tooth Extraction">
+                                <label for="service7"><i class="fas fa-hand-paper"></i> Tooth Extraction</label>
+                            </div>
+                            <div class="service-option">
+                                <input type="radio" name="service" id="service8" value="General Consultation">
+                                <label for="service8"><i class="fas fa-stethoscope"></i> General Consultation</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Choose Doctor -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-user-md"></i> Choose Doctor</h3>
+                        <div class="doctors-select">
+                            <div class="doctor-option">
+                                <input type="radio" name="doctor" id="doctor1" value="Dr. Ahmed Samir">
+                                <label for="doctor1">
+                                    <div class="doctor-icon"><i class="fas fa-user-md"></i></div>
+                                    <div class="doctor-name">Dr. Ahmed Samir</div>
+                                    <div class="doctor-spec">Oral Surgery</div>
+                                </label>
+                            </div>
+                            <div class="doctor-option">
+                                <input type="radio" name="doctor" id="doctor2" value="Dr. Sarah Mahmoud">
+                                <label for="doctor2">
+                                    <div class="doctor-icon" style="background: #db2777;"><i class="fas fa-user-md"></i></div>
+                                    <div class="doctor-name">Dr. Sarah Mahmoud</div>
+                                    <div class="doctor-spec">Orthodontics & Cosmetics</div>
+                                </label>
+                            </div>
+                            <div class="doctor-option">
+                                <input type="radio" name="doctor" id="doctor3" value="Dr. Mohamed Ali">
+                                <label for="doctor3">
+                                    <div class="doctor-icon" style="background: #059669;"><i class="fas fa-user-md"></i></div>
+                                    <div class="doctor-name">Dr. Mohamed Ali</div>
+                                    <div class="doctor-spec">Dental Implants</div>
+                                </label>
+                            </div>
+                            <div class="doctor-option">
+                                <input type="radio" name="doctor" id="doctor4" value="Any Available Doctor">
+                                <label for="doctor4">
+                                    <div class="doctor-icon" style="background: #8b5cf6;"><i class="fas fa-clock"></i></div>
+                                    <div class="doctor-name">Any Available Doctor</div>
+                                    <div class="doctor-spec">Earliest Appointment</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Appointment Date -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-calendar-alt"></i> Appointment Date</h3>
+                        <div class="form-row">
+                            <div class="form-group" style="width: 100%;">
+                                <label>Date <span>*</span></label>
+                                <input type="date" id="bookingDate" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Notes -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-comment-medical"></i> Additional Notes</h3>
+                        <div class="form-group">
+                            <textarea id="notes" placeholder="Write any notes or problems you are experiencing..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-btn" onclick="submitBooking(event)">
+                        <i class="fas fa-check-circle"></i>
+                        Confirm Booking
+                    </button>
+
+                </div>
+
+                <!-- Success Message -->
+                <div class="booking-form success-message" id="successMessage">
+                    <div class="success-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h2>Booking Successful!</h2>
+                    <p>Thank you, we will contact you shortly to confirm</p>
+                    <div class="success-details" id="bookingDetails">
+                        <!-- Filled by JS -->
+                    </div>
+                    <a href="index.html" class="back-btn">
+                        <i class="fas fa-home"></i> Back to Home
+                    </a>
+                </div>
+
+                <!-- Side Information -->
+                <div class="booking-info">
+                    <div class="info-card">
+                        <h3><i class="fas fa-info-circle"></i> Important Information</h3>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <div class="info-item-content">
+                                <h4>Working Hours</h4>
+                                <p>Saturday - Thursday<br>2:00 PM - 10:00 PM</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <div class="info-item-content">
+                                <h4>For Inquiries</h4>
+                                <p>01152286284<br>0225896321</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="info-item-content">
+                                <h4>Address</h4>
+                                <p>15 El Mohandiseen St., Doctors Tower, 3rd Floor, Cairo</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3><i class="fas fa-tooth"></i> Our Services</h3>
+                        <div class="quick-services">
+                            <span class="quick-service">Hollywood Smile</span>
+                            <span class="quick-service">Dental Implants</span>
+                            <span class="quick-service">Clear Aligners</span>
+                            <span class="quick-service">Laser Whitening</span>
+                            <span class="quick-service">Root Canal</span>
+                            <span class="quick-service">Cosmetic Fillings</span>
+                        </div>
+                    </div>
+
+                    <a href="https://wa.me/201152286284?text=Hello, I would like to book an appointment" class="emergency-btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Book via WhatsApp
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- JS -->
+    <script>
+        // 1. Mobile Menu
+        const menuToggle = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+        }
+
+        // 2. Date Min
+        const dateInput = document.getElementById('bookingDate');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+
+        // 3. Disable Friday
+        dateInput.addEventListener('change', function() {
+            const selectedDate = new Date(this.value);
+            const dayOfWeek = selectedDate.getDay();
+            if (dayOfWeek === 5) { // Friday
+                alert('Sorry, the clinic is closed on Fridays');
+                this.value = '';
+            }
+        });
+
+        function generateBookingID() {
+            return 'BKG-' + Math.floor(Math.random() * 1000000);
+        }
+
+        // 4. Booking
+        function submitBooking(e) {
+            e.preventDefault();
+
+            // Gather Data
+            const fullName = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const age = document.getElementById('age').value;
+            const bookingDate = document.getElementById('bookingDate').value;
+            const notes = document.getElementById('notes').value;
+
+            // Validate
+            if (!fullName || !phone || !bookingDate) {
+                alert('Please fill all required fields');
+                return;
+            }
+
+            const selectedService = document.querySelector('input[name="service"]:checked');
+            if (!selectedService) {
+                alert('Please select a required service');
+                return;
+            }
+
+            const selectedDoctor = document.querySelector('input[name="doctor"]:checked');
+            const doctor = selectedDoctor ? selectedDoctor.value : 'Not Selected';
+
+            // Generate Booking ID
+            const bookingID = generateBookingID();
+
+            // Format Date
+            const formattedDate = new Date(bookingDate).toLocaleDateString('en-EG', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Display Details
+            document.getElementById('bookingDetails').innerHTML = `
+                <h4><i class="fas fa-calendar-check" style="color: #10b981;"></i> Booking Details</h4>
+                <p><strong>Booking Number:</strong> ${bookingID}</p>
+                <p><strong>Name:</strong> ${fullName}</p>
+                <p><strong>Phone:</strong> ${phone}</p>
+                ${email ? `<p><strong>Email:</strong> ${email}</p>` : ''}
+                ${age ? `<p><strong>Age:</strong> ${age} years</p>` : ''}
+                <p><strong>Service:</strong> ${selectedService.value}</p>
+                <p><strong>Doctor:</strong> ${doctor}</p>
+                <p><strong>Day:</strong> ${formattedDate}</p>
+                ${notes ? `<p><strong>Notes:</strong> ${notes}</p>` : ''}
+            `;
+
+            // Hide form & show success
+            document.getElementById('bookingForm').style.display = 'none';
+            document.getElementById('successMessage').classList.add('show');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+
+</html>

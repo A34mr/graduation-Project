@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - Dent AI Clinic</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%);
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        
+        .booking-form {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: #1e40af;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- FORM -->
+        <div class="booking-form" id="bookingForm">
+
+            <h2>Book Appointment</h2>
+
+            <div class="form-group">
+                <input type="text" id="fullName" placeholder="Full Name" required>
+            </div>
+
+            <div class="form-group">
+                <input type="tel" id="phone" placeholder="Phone Number" required>
+            </div>
+
+            <div class="form-group">
+                <input type="email" id="email" placeholder="Email (optional)">
+            </div>
+
+            <div class="form-group">
+                <input type="number" id="age" placeholder="Age">
+            </div>
+
+            <!-- اختيار اليوم -->
+            <div class="form-group">
+                <input type="date" id="bookingDate" required>
+            </div>
+
+            <div class="form-group">
+                <textarea id="notes" placeholder="Notes"></textarea>
+            </div>
+
+            <button class="submit-btn" onclick="submitBooking(event)">
+                Confirm Booking
+            </button>
+
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="booking-form success-message" id="successMessage">
+            <h2>Booking Successful!</h2>
+            <div id="bookingDetails"></div>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function generateBookingID() {
+            return 'BOOK-' + Math.floor(Math.random() * 1000000);
+        }
+
+        function submitBooking(e) {
+            e.preventDefault();
+
+            const fullName = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const age = document.getElementById('age').value;
+            const notes = document.getElementById('notes').value;
+            const bookingDate = document.getElementById('bookingDate').value;
+
+            if (!fullName || !phone || !bookingDate) {
+                alert("Please fill required fields");
+                return;
+            }
+
+            const bookingID = generateBookingID();
+
+            document.getElementById('bookingDetails').innerHTML = `
+                <p><strong>Booking ID:</strong> ${bookingID}</p>
+                <p><strong>Name:</strong> ${fullName}</p>
+                <p><strong>Phone:</strong> ${phone}</p>
+                <p><strong>Day:</strong> ${bookingDate}</p>
+                ${email ? `<p><strong>Email:</strong> ${email}</p>` : ''}
+                ${age ? `<p><strong>Age:</strong> ${age}</p>` : ''}
+                ${notes ? `<p><strong>Notes:</strong> ${notes}</p>` : ''}
+            `;
+
+            document.getElementById('bookingForm').style.display = "none";
+            document.getElementById('successMessage').classList.add('show');
+        }
+    </script>
+
+</body>
+
+</html>
