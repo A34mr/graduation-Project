@@ -1,317 +1,124 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-} from "react-router-dom";
+  Mail, Phone, MapPin, Calendar, CheckCircle,
+  Users, Clock, Star, Edit
+} from 'lucide-react';
 
-/* ================= LAYOUT ================= */
-function Layout({ children }) {
-  return (
-    <div className="flex min-h-screen bg-[#F0F2F5]">
+const DoctorDashboard = () => {
+  const [activeTab, setActiveTab] = useState('upcoming');
 
-      <aside className="w-60 bg-[#1A3B8B] text-white p-4 hidden md:block">
+  const stats = [
+    { title: 'Today', count: '4 Appointments', sub: 'Scheduled for today', icon: <Calendar size={18} className="text-blue-500" />, bg: 'bg-blue-50' },
+    { title: 'Completed', count: '1 Appointment', sub: 'Completed today', icon: <CheckCircle size={18} className="text-green-500" />, bg: 'bg-green-50' },
+    { title: 'Patients', count: '127 Patients', sub: 'Total patients', icon: <Users size={18} className="text-purple-500" />, bg: 'bg-purple-50' },
+    { title: 'Upcoming', count: '3 Appointments', sub: 'Next few days', icon: <Clock size={18} className="text-yellow-500" />, bg: 'bg-yellow-50' },
+  ];
 
-        <h1 className="font-bold text-xl mb-6">DENT AI</h1>
-
-        <Link to="/" className="block p-2 rounded hover:bg-white/20 mb-2">
-          📊 Dashboard
-        </Link>
-
-        <a
-          href="#"
-          onClick={(e) => e.preventDefault()}
-          className="block p-2 rounded hover:bg-white/20"
-        >
-          🏠 Home
-        </a>
-
-        <a
-          href="/booking"
-          target="_blank"
-          rel="noreferrer"
-          className="block p-2 rounded hover:bg-white/20 mt-2"
-        >
-          📅 Booking
-        </a>
-
-      </aside>
-
-      <div className="flex-1 p-6">{children}</div>
-    </div>
-  );
-}
-
-/* ================= BOOKING ================= */
-function Booking() {
-
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    date: ""
-  });
-
-  const [bookings, setBookings] = useState([]);
-
-  const isFull = (date) =>
-    bookings.filter(b => b.date === date).length >= 10;
-
-  const submit = (e) => {
-    e.preventDefault();
-
-    if (!form.name || !form.email || !form.phone || !form.date) {
-      alert("Invalid data ❌");
-      return;
-    }
-
-    if (isFull(form.date)) {
-      alert("Day FULL ❌");
-      return;
-    }
-
-    setBookings([...bookings, form]);
-    alert("Booked ✅");
-
-    setForm({ name: "", email: "", phone: "", date: "" });
-  };
+  const upcomingAppointments = [
+    { name: 'Abdullah Youssef', type: 'Routine Checkup', phone: '+20 10 234 5678', date: 'Feb 6, 2026', time: '09:00 AM', initial: 'A', color: 'bg-purple-600' },
+    { name: 'Noura Khaled', type: 'Orthodontics', phone: '+20 11 345 6789', date: 'Feb 6, 2026', time: '11:00 AM', initial: 'N', color: 'bg-fuchsia-600' },
+    { name: 'Majed Abdulrahman', type: 'Dental Implant', phone: '+20 12 456 7890', date: 'Feb 7, 2026', time: '10:00 AM', initial: 'M', color: 'bg-indigo-600' },
+  ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F0F2F5]">
-
-      <form onSubmit={submit} className="bg-white p-6 rounded-xl shadow w-96 space-y-3">
-
-        <h2 className="font-bold text-center">Booking</h2>
-
-        <input className="border p-2 w-full" placeholder="Name"
-          value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-        />
-
-        <input className="border p-2 w-full" placeholder="Email"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-        />
-
-        <input className="border p-2 w-full" placeholder="Phone"
-          value={form.phone}
-          onChange={(e) => setForm({ ...form, phone: e.target.value })}
-        />
-
-        <input type="date" className="border p-2 w-full"
-          value={form.date}
-          onChange={(e) => setForm({ ...form, date: e.target.value })}
-        />
-
-        <button className="bg-[#1A3B8B] text-white w-full p-2 rounded">
-          Submit
-        </button>
-
-      </form>
-
-    </div>
-  );
-}
-
-/* ================= DASHBOARD ================= */
-function Dashboard() {
-
-  /* ================= PROFILE (رجعناه زي ما طلبت) ================= */
-  const [profile, setProfile] = useState({
-    name: "Dr. Ahmed",
-    specialty: "Orthodontist Specialist",
-    bio: "Experienced dentist in cosmetic & orthodontic treatments.",
-    image: null
-  });
-
-  const [edit, setEdit] = useState(false);
-
-  const [patients, setPatients] = useState([
-    { name: "John Doe", date: "2026-04-20", time: "10:30" }
-  ]);
-
-  const [newPatient, setNewPatient] = useState("");
-
-  const addPatient = () => {
-    if (!newPatient.trim()) return;
-
-    setPatients([
-      ...patients,
-      { name: newPatient, date: "", time: "" }
-    ]);
-
-    setNewPatient("");
-  };
-
-  const updateDate = (i, date) => {
-    const copy = [...patients];
-    copy[i].date = date;
-    setPatients(copy);
-  };
-
-  const updateTime = (i, time) => {
-    const copy = [...patients];
-    copy[i].time = time;
-    setPatients(copy);
-  };
-
-  const deletePatient = (i) => {
-    setPatients(patients.filter((_, idx) => idx !== i));
-  };
-
-  const handleImage = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfile({
-        ...profile,
-        image: URL.createObjectURL(file)
-      });
-    }
-  };
-
-  return (
-    <Layout>
-
-      {/* ================= PROFILE SECTION ================= */}
-      <div className="bg-white p-6 rounded-xl shadow mb-6 flex gap-6 items-center">
-
-        <div className="text-center">
-          <img
-            src={profile.image || "https://via.placeholder.com/120"}
-            className="w-28 h-28 rounded-full object-cover bg-gray-200"
-          />
-
-          <input type="file" onChange={handleImage} className="mt-2 text-xs" />
+    <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-6 font-sans text-slate-600">
+      {/* Header Section */}
+      <div className="max-w-6xl mx-auto bg-[#1E56E3] rounded-2xl p-6 text-white relative shadow-sm">
+        <div className="flex flex-col md:flex-row items-center gap-5">
+          <div className="relative">
+            <img
+              src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=200&h=200&fit=crop"
+              alt="Doctor"
+              className="w-20 h-20 rounded-full border-2 border-white/30 object-cover"
+            />
+          </div>
+          <div className="flex-1 text-center md:text-left">
+            <h1 className="text-lg font-semibold">Dr. Ahmed Mahmoud</h1>
+            <p className="text-xs opacity-90 font-light">Dental Implants & Cosmetic Dentistry Consultant</p>
+            <div className="flex justify-center md:justify-start gap-4 mt-2 text-[10px]">
+              <span className="flex items-center gap-1"><Star size={12} className="fill-yellow-400 text-yellow-400" /> 4.9 (247 reviews)</span>
+              <span className="opacity-80 flex items-center gap-1"><Clock size={12} /> 15 Years Experience</span>
+            </div>
+          </div>
+          <button className="bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-1.5 rounded-lg flex items-center gap-2 transition text-xs">
+            <Edit size={14} /> Edit Profile
+          </button>
         </div>
 
-        <div className="flex-1">
+        {/* Contact Info Bar */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-6 bg-white rounded-xl p-3 text-slate-500 shadow-sm border border-slate-100">
+          <div className="flex items-center gap-2 text-xs"><div className="p-1.5 bg-blue-50 rounded-lg text-blue-500"><Mail size={14} /></div> dr.ahmed@dentalclinic.com</div>
+          <div className="flex items-center gap-2 text-xs"><div className="p-1.5 bg-green-50 rounded-lg text-green-500"><Phone size={14} /></div> +20 10 123 4567</div>
+          <div className="flex items-center gap-2 text-xs"><div className="p-1.5 bg-purple-50 rounded-lg text-purple-500"><MapPin size={14} /></div> Main Clinic - Cairo</div>
+        </div>
+      </div>
 
-          {edit ? (
-            <>
-              <input
-                className="border p-2 w-full mb-2"
-                value={profile.name}
-                onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-              />
+      {/* Stats Grid */}
+      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+        {stats.map((stat, index) => (
+          <div key={index} className="bg-white p-4 rounded-xl shadow-sm flex items-center justify-between border border-slate-50">
+            <div>
+              <p className="text-blue-400 text-[11px] font-medium uppercase tracking-wider">{stat.title}</p>
+              <h3 className="text-sm font-bold text-slate-700 mt-0.5">{stat.count}</h3>
+              <p className="text-[10px] text-slate-400">{stat.sub}</p>
+            </div>
+            <div className={`${stat.bg} p-2.5 rounded-lg`}>{stat.icon}</div>
+          </div>
+        ))}
+      </div>
 
-              <input
-                className="border p-2 w-full mb-2"
-                value={profile.specialty}
-                onChange={(e) => setProfile({ ...profile, specialty: e.target.value })}
-              />
+      {/* Tabs Section */}
+      <div className="max-w-6xl mx-auto mt-6 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <div className="flex border-b border-slate-100">
+          {[
+            { id: 'today', label: "Today's Appointments", icon: <Calendar size={14} /> },
+            { id: 'upcoming', label: "Upcoming Appointments", icon: <Clock size={14} /> },
+            { id: 'patients', label: "Patients List", icon: <Users size={14} /> }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex-1 py-3.5 flex items-center justify-center gap-2 text-xs font-medium transition-all ${activeTab === tab.id
+                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/30'
+                  : 'text-slate-400 hover:bg-slate-50'
+                }`}
+            >
+              {tab.icon} {tab.label}
+            </button>
+          ))}
+        </div>
 
-              <textarea
-                className="border p-2 w-full"
-                value={profile.bio}
-                onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
-              />
-            </>
-          ) : (
-            <>
-              <h2 className="font-bold text-lg">{profile.name}</h2>
-              <p className="text-blue-600 font-semibold">{profile.specialty}</p>
-              <p className="text-gray-500">{profile.bio}</p>
-            </>
+        {/* Appointment List Content */}
+        <div className="p-2">
+          {activeTab === 'upcoming' && (
+            <div className="divide-y divide-slate-50">
+              {upcomingAppointments.map((app, idx) => (
+                <div key={idx} className="flex items-center justify-between p-4 hover:bg-slate-50/50 transition group">
+                  <div className="flex items-center gap-4">
+                    <div className={`w-9 h-9 ${app.color} text-white rounded-full flex items-center justify-center text-xs font-bold shadow-sm`}>
+                      {app.initial}
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-slate-700">{app.name}</h4>
+                      <p className="text-[11px] text-slate-400 font-light">{app.type}</p>
+                      <div className="flex items-center gap-1 mt-1 text-[10px] text-slate-500">
+                        <Phone size={10} /> {app.phone}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[11px] font-medium text-slate-500">{app.date}</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">{app.time}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
-
-          <button
-            onClick={() => setEdit(!edit)}
-            className="mt-2 bg-[#1A3B8B] text-white px-3 py-1 rounded"
-          >
-            {edit ? "Save" : "Edit"}
-          </button>
-
+          {activeTab === 'today' && <div className="p-10 text-center text-xs text-slate-400 font-light">No appointments left for today.</div>}
         </div>
       </div>
-
-      {/* ================= PATIENTS ================= */}
-      <div className="bg-white p-6 rounded-xl shadow">
-
-        <h3 className="font-bold mb-4">Patients</h3>
-
-        <div className="flex gap-2 mb-4">
-
-          <input
-            className="border p-2 flex-1"
-            value={newPatient}
-            onChange={(e) => setNewPatient(e.target.value)}
-            placeholder="Add patient"
-          />
-
-          <button
-            onClick={addPatient}
-            className="bg-green-500 text-white px-3 rounded"
-          >
-            Add
-          </button>
-
-        </div>
-
-        <table className="w-full text-sm">
-
-          <thead className="text-gray-500">
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {patients.map((p, i) => (
-              <tr key={i} className="border-t">
-
-                <td className="font-bold">{i + 1}</td>
-                <td>{p.name}</td>
-
-                <td>
-                  <input
-                    type="date"
-                    value={p.date}
-                    onChange={(e) => updateDate(i, e.target.value)}
-                  />
-                </td>
-
-                <td>
-                  <input
-                    type="time"
-                    value={p.time}
-                    onChange={(e) => updateTime(i, e.target.value)}
-                  />
-                </td>
-
-                <td>
-                  <button
-                    onClick={() => deletePatient(i)}
-                    className="text-red-500"
-                  >
-                    Delete
-                  </button>
-                </td>
-
-              </tr>
-            ))}
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </Layout>
+    </div>
   );
-}
+};
 
-/* ================= APP ================= */
-export default function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/booking" element={<Booking />} />
-      </Routes>
-    </Router>
-  );
-}
+export default DoctorDashboard;
