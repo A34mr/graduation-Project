@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - Dent AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .booking-container { padding: 40px 0; min-height: calc(100vh - 200px); }
+        .booking-form-container { max-width: 700px; margin: auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .clinic-info-box { background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; }
+        .success-message { text-align: center; padding: 40px; display: none; }
+        .success-icon { width: 80px; height: 80px; background: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 40px; color: white; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo"><i class="fas fa-tooth"></i> Dent AI</a>
+            <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="search-clinics.html">Search Clinics</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container booking-container">
+        <div class="section-title">
+            <h2>Book Your Appointment</h2>
+            <p>Fill in the form below to schedule your visit</p>
+        </div>
+
+        <div class="booking-form-container">
+            <!-- Clinic Info -->
+            <div class="clinic-info-box" id="selectedClinicInfo">
+                <h3 style="margin:0 0 10px 0;"><i class="fas fa-clinic-medical"></i> <span id="clinicNameDisplay">Selected Clinic</span></h3>
+                <p style="margin:0; opacity:0.9;" id="clinicDetailsDisplay">Please select a clinic from the search page</p>
+            </div>
+
+            <!-- Booking Form -->
+            <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+                <h3 style="color:#1e40af; margin-bottom:20px;">Your Information</h3>
+                
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="fullName" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" name="phone" required placeholder="+20 XX XXXX XXXX" pattern="[0-9+]{11,15}">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" name="dob">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select name="gender">
+                            <option value="">Select</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h3 style="color:#1e40af; margin:30px 0 20px 0;">Appointment Details</h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Preferred Date *</label>
+                        <input type="date" name="bookingDate" required min="" id="minDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Preferred Time *</label>
+                        <select name="bookingTime" required>
+                            <option value="">Select time slot</option>
+                            <option>09:00 AM</option>
+                            <option>09:30 AM</option>
+                            <option>10:00 AM</option>
+                            <option>10:30 AM</option>
+                            <option>11:00 AM</option>
+                            <option>11:30 AM</option>
+                            <option>12:00 PM</option>
+                            <option>01:00 PM</option>
+                            <option>01:30 PM</option>
+                            <option>02:00 PM</option>
+                            <option>02:30 PM</option>
+                            <option>03:00 PM</option>
+                            <option>03:30 PM</option>
+                            <option>04:00 PM</option>
+                            <option>04:30 PM</option>
+                            <option>05:00 PM</option>
+                            <option>05:30 PM</option>
+                            <option>06:00 PM</option>
+                            <option>06:30 PM</option>
+                            <option>07:00 PM</option>
+                            <option>07:30 PM</option>
+                            <option>08:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Service Type *</label>
+                    <select name="service" required onchange="updatePrice()">
+                        <option value="">Select a service</option>
+                        <option value="checkup" data-price="500">General Checkup (500 EGP)</option>
+                        <option value="cleaning" data-price="800">Teeth Cleaning (800 EGP)</option>
+                        <option value="filling" data-price="1200">Filling (1200 EGP)</option>
+                        <option value="root-canal" data-price="3500">Root Canal (3500 EGP)</option>
+                        <option value="whitening" data-price="2500">Teeth Whitening (2500 EGP)</option>
+                        <option value="extraction" data-price="1000">Tooth Extraction (1000 EGP)</option>
+                        <option value="implant" data-price="8000">Dental Implant (8000 EGP)</option>
+                        <option value="braces" data-price="5000">Orthodontic Braces (5000 EGP)</option>
+                        <option value="veneers" data-price="4000">Veneers (4000 EGP)</option>
+                        <option value="other" data-price="0">Other (Consultation Required)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Additional Notes / Symptoms</label>
+                    <textarea name="notes" rows="4" placeholder="Describe any pain, symptoms, or special requirements..."></textarea>
+                </div>
+
+                <div style="background:#eff6ff; padding:20px; border-radius:10px; margin:20px 0;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:600; color:#1e40af;">Estimated Total:</span>
+                        <span style="font-size:24px; font-weight:700; color:#10b981;" id="estimatedPrice">0 EGP</span>
+                    </div>
+                    <p style="font-size:12px; color:#666; margin:10px 0 0 0;">* Final price may vary after examination</p>
+                </div>
+
+                <div class="form-group">
+                    <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                        <input type="checkbox" required style="width:18px; height:18px; accent-color:#1e40af;">
+                        <span>I agree to the terms and conditions and confirm that the information provided is accurate.</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%; padding:18px; font-size:18px; border-radius:12px;">
+                    <i class="fas fa-check-circle"></i> Confirm Booking
+                </button>
+            </form>
+
+            <!-- Success Message -->
+            <div id="successMessage" class="success-message">
+                <div class="success-icon">✓</div>
+                <h2 style="color:#047857; font-size:28px; margin-bottom:15px;">Booking Successful!</h2>
+                <p style="color:#666; margin-bottom:25px;">Your appointment has been booked successfully</p>
+                <div style="background:#f0fdf4; padding:20px; border-radius:15px; text-align:left; margin-bottom:25px;">
+                    <p><strong>Booking ID:</strong> <span id="bookingID"></span></p>
+                    <p><strong>Name:</strong> <span id="confirmName"></span></p>
+                    <p><strong>Clinic:</strong> <span id="confirmClinic"></span></p>
+                    <p><strong>Date:</strong> <span id="confirmDate"></span></p>
+                    <p><strong>Time:</strong> <span id="confirmTime"></span></p>
+                    <p><strong>Service:</strong> <span id="confirmService"></span></p>
+                </div>
+                <a href="patient-dashboard.html" class="btn btn-primary" style="padding:14px 30px; border-radius:12px; display:inline-block; text-decoration:none;">View in Dashboard</a>
+                <a href="index.html" class="btn btn-secondary" style="background:#f1f5f9; color:#1e40af; padding:14px 30px; border-radius:12px; display:inline-block; text-decoration:none; margin-left:10px;">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Dent AI. Egyptian E-Learning University Graduation Project.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('minDate').setAttribute('min', today);
+
+        // Get clinic from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const clinicFromUrl = urlParams.get('clinic');
+        
+        if (clinicFromUrl) {
+            document.getElementById('clinicNameDisplay').textContent = clinicFromUrl;
+            document.getElementById('clinicDetailsDisplay').textContent = 'Ready to book your appointment';
+        } else {
+            // Default clinic info
+            document.getElementById('clinicNameDisplay').textContent = 'Smile Care Clinic';
+            document.getElementById('clinicDetailsDisplay').textContent = 'Dr. Ahmed Mahmoud - Maadi, Cairo';
+        }
+
+        function updatePrice() {
+            const select = event.target;
+            const selectedOption = select.options[select.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
+            document.getElementById('estimatedPrice').textContent = price + ' EGP';
+        }
+
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Generate booking ID
+            const bookingID = 'BOOK-' + Math.floor(Math.random() * 1000000);
+            const clinicName = document.getElementById('clinicNameDisplay').textContent;
+            
+            // Store booking
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            bookings.push({ 
+                ...data, 
+                id: bookingID, 
+                clinic: clinicName,
+                status: 'Pending', 
+                date: new Date().toISOString() 
+            });
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+            
+            // Show success message
+            document.getElementById('bookingForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            document.getElementById('bookingID').textContent = bookingID;
+            document.getElementById('confirmName').textContent = data.fullName;
+            document.getElementById('confirmClinic').textContent = clinicName;
+            document.getElementById('confirmDate').textContent = data.bookingDate;
+            document.getElementById('confirmTime').textContent = data.bookingTime;
+            
+            const serviceText = document.querySelector(`option[value="${data.service}"]`)?.textContent || data.service;
+            document.getElementById('confirmService').textContent = serviceText;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
