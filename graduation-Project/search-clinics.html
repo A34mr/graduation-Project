@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Clinics - Dent AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .search-container { padding: 40px 0; min-height: calc(100vh - 200px); }
+        .filters-section { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 30px; }
+        .filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; align-items: end; }
+        .clinic-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: all 0.3s; margin-bottom: 20px; }
+        .clinic-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+        .clinic-image { height: 200px; background: linear-gradient(135deg, #1e40af, #3b82f6); display: flex; align-items: center; justify-content: center; color: white; font-size: 60px; }
+        .clinic-info { padding: 25px; }
+        .clinic-name { font-size: 22px; color: #1e40af; margin-bottom: 10px; font-weight: 700; }
+        .clinic-meta { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; color: #666; font-size: 14px; }
+        .clinic-meta span { display: flex; align-items: center; gap: 5px; }
+        .clinic-rating { color: #fbbf24; margin-bottom: 15px; }
+        .clinic-price { font-size: 18px; color: #10b981; font-weight: 700; margin-bottom: 15px; }
+        .clinic-services { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+        .service-tag { background: #eff6ff; color: #1e40af; padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: 600; }
+        .btn-book { width: 100%; padding: 12px; background: #1e40af; color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .btn-book:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo"><i class="fas fa-tooth"></i> Dent AI</a>
+            <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html" class="btn-nav" style="background:#10b981;">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container search-container">
+        <div class="section-title">
+            <h2>Find Your Perfect Clinic</h2>
+            <p>Search and compare clinics by location, specialty, and price</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-section">
+            <div class="filter-grid">
+                <div class="form-group" style="margin:0;">
+                    <label><i class="fas fa-search"></i> Search</label>
+                    <input type="text" id="searchInput" placeholder="Clinic or doctor name...">
+                </div>
+                <div class="form-group" style="margin:0;">
+                    <label><i class="fas fa-stethoscope"></i> Specialty</label>
+                    <select id="specialtyFilter" onchange="filterClinics()">
+                        <option value="">All Specialties</option>
+                        <option value="general">General Dentistry</option>
+                        <option value="orthodontics">Orthodontics</option>
+                        <option value="oral-surgery">Oral Surgery</option>
+                        <option value="pediatric">Pediatric Dentistry</option>
+                        <option value="cosmetic">Cosmetic Dentistry</option>
+                        <option value="endodontics">Endodontics</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin:0;">
+                    <label><i class="fas fa-location-dot"></i> Location</label>
+                    <select id="locationFilter" onchange="filterClinics()">
+                        <option value="">All Locations</option>
+                        <option value="cairo">Cairo</option>
+                        <option value="giza">Giza</option>
+                        <option value="alexandria">Alexandria</option>
+                        <option value="mansoura">Mansoura</option>
+                        <option value="zagazig">Zagazig</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin:0;">
+                    <label><i class="fas fa-dollar-sign"></i> Price Range</label>
+                    <select id="priceFilter" onchange="filterClinics()">
+                        <option value="">Any Price</option>
+                        <option value="low">Budget (Under 500 EGP)</option>
+                        <option value="medium">Moderate (500-1500 EGP)</option>
+                        <option value="high">Premium (1500+ EGP)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Count -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:15px;">
+            <p style="color:#666;"><strong id="resultsCount">8</strong> clinics found</p>
+            <select id="sortFilter" onchange="filterClinics()" style="padding:10px 15px; border-radius:8px; border:1px solid #e2e8f0;">
+                <option value="rating">Sort by: Rating</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="name">Name: A-Z</option>
+            </select>
+        </div>
+
+        <!-- Clinic Cards -->
+        <div id="clinicsList">
+            <!-- Clinic 1 -->
+            <div class="clinic-card" data-specialty="orthodontics" data-location="cairo" data-price="medium">
+                <div class="clinic-image"><i class="fas fa-clinic-medical"></i></div>
+                <div class="clinic-info">
+                    <h3 class="clinic-name">Smile Care Clinic</h3>
+                    <div class="clinic-meta">
+                        <span><i class="fas fa-user-md"></i> Dr. Ahmed Mahmoud</span>
+                        <span><i class="fas fa-location-dot"></i> Maadi, Cairo</span>
+                        <span><i class="fas fa-clock"></i> 9 AM - 9 PM</span>
+                    </div>
+                    <div class="clinic-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        <span style="color:#666;">(4.8) - 156 reviews</span>
+                    </div>
+                    <div class="clinic-services">
+                        <span class="service-tag">Orthodontics</span>
+                        <span class="service-tag">Implants</span>
+                        <span class="service-tag">Root Canal</span>
+                    </div>
+                    <div class="clinic-price">Consultation: 800 EGP</div>
+                    <button class="btn-book" onclick="bookAppointment('Smile Care Clinic')">Book Appointment</button>
+                </div>
+            </div>
+
+            <!-- Clinic 2 -->
+            <div class="clinic-card" data-specialty="cosmetic" data-location="giza" data-price="high">
+                <div class="clinic-image"><i class="fas fa-tooth"></i></div>
+                <div class="clinic-info">
+                    <h3 class="clinic-name">Hollywood Smile Center</h3>
+                    <div class="clinic-meta">
+                        <span><i class="fas fa-user-md"></i> Dr. Sara Khaled</span>
+                        <span><i class="fas fa-location-dot"></i> Sheikh Zayed, Giza</span>
+                        <span><i class="fas fa-clock"></i> 10 AM - 10 PM</span>
+                    </div>
+                    <div class="clinic-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span style="color:#666;">(5.0) - 203 reviews</span>
+                    </div>
+                    <div class="clinic-services">
+                        <span class="service-tag">Teeth Whitening</span>
+                        <span class="service-tag">Veneers</span>
+                        <span class="service-tag">Hollywood Smile</span>
+                    </div>
+                    <div class="clinic-price">Consultation: 1500 EGP</div>
+                    <button class="btn-book" onclick="bookAppointment('Hollywood Smile Center')">Book Appointment</button>
+                </div>
+            </div>
+
+            <!-- Clinic 3 -->
+            <div class="clinic-card" data-specialty="pediatric" data-location="cairo" data-price="low">
+                <div class="clinic-image"><i class="fas fa-child"></i></div>
+                <div class="clinic-info">
+                    <h3 class="clinic-name">Kids Dental Care</h3>
+                    <div class="clinic-meta">
+                        <span><i class="fas fa-user-md"></i> Dr. Fatima Saeed</span>
+                        <span><i class="fas fa-location-dot"></i> Nasr City, Cairo</span>
+                        <span><i class="fas fa-clock"></i> 8 AM - 6 PM</span>
+                    </div>
+                    <div class="clinic-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        <span style="color:#666;">(4.2) - 89 reviews</span>
+                    </div>
+                    <div class="clinic-services">
+                        <span class="service-tag">Pediatric Dentistry</span>
+                        <span class="service-tag">Preventive Care</span>
+                        <span class="service-tag">Fillings</span>
+                    </div>
+                    <div class="clinic-price">Consultation: 400 EGP</div>
+                    <button class="btn-book" onclick="bookAppointment('Kids Dental Care')">Book Appointment</button>
+                </div>
+            </div>
+
+            <!-- Clinic 4 -->
+            <div class="clinic-card" data-specialty="oral-surgery" data-location="alexandria" data-price="medium">
+                <div class="clinic-image"><i class="fas fa-procedures"></i></div>
+                <div class="clinic-info">
+                    <h3 class="clinic-name">Alexandria Dental Hospital</h3>
+                    <div class="clinic-meta">
+                        <span><i class="fas fa-user-md"></i> Dr. Omar Hassan</span>
+                        <span><i class="fas fa-location-dot"></i> Smouha, Alexandria</span>
+                        <span><i class="fas fa-clock"></i> 24 Hours</span>
+                    </div>
+                    <div class="clinic-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        <span style="color:#666;">(4.6) - 312 reviews</span>
+                    </div>
+                    <div class="clinic-services">
+                        <span class="service-tag">Oral Surgery</span>
+                        <span class="service-tag">Wisdom Teeth</span>
+                        <span class="service-tag">Emergency Care</span>
+                    </div>
+                    <div class="clinic-price">Consultation: 700 EGP</div>
+                    <button class="btn-book" onclick="bookAppointment('Alexandria Dental Hospital')">Book Appointment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Dent AI. Egyptian E-Learning University Graduation Project.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        function filterClinics() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const specialty = document.getElementById('specialtyFilter').value;
+            const location = document.getElementById('locationFilter').value;
+            const price = document.getElementById('priceFilter').value;
+            const sort = document.getElementById('sortFilter').value;
+            
+            const cards = document.querySelectorAll('.clinic-card');
+            let visibleCards = [];
+
+            cards.forEach(card => {
+                const name = card.querySelector('.clinic-name').textContent.toLowerCase();
+                const matchesSearch = name.includes(searchTerm);
+                const matchesSpecialty = !specialty || card.dataset.specialty === specialty;
+                const matchesLocation = !location || card.dataset.location === location;
+                const matchesPrice = !price || card.dataset.price === price;
+
+                if (matchesSearch && matchesSpecialty && matchesLocation && matchesPrice) {
+                    card.style.display = 'block';
+                    visibleCards.push(card);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Sort results
+            visibleCards.sort((a, b) => {
+                const aPrice = parseInt(a.querySelector('.clinic-price').textContent.match(/\d+/)[0]);
+                const bPrice = parseInt(b.querySelector('.clinic-price').textContent.match(/\d+/)[0]);
+                const aRating = parseFloat(a.querySelector('.clinic-rating').textContent.match(/\d\.\d/)[0]);
+                const bRating = parseFloat(b.querySelector('.clinic-rating').textContent.match(/\d\.\d/)[0]);
+                const aName = a.querySelector('.clinic-name').textContent;
+                const bName = b.querySelector('.clinic-name').textContent;
+
+                switch(sort) {
+                    case 'price-low': return aPrice - bPrice;
+                    case 'price-high': return bPrice - aPrice;
+                    case 'rating': return bRating - aRating;
+                    case 'name': return aName.localeCompare(bName);
+                    default: return 0;
+                }
+            });
+
+            // Re-append sorted cards
+            const container = document.getElementById('clinicsList');
+            visibleCards.forEach(card => container.appendChild(card));
+
+            document.getElementById('resultsCount').textContent = visibleCards.length;
+        }
+
+        function bookAppointment(clinicName) {
+            localStorage.setItem('selectedClinic', clinicName);
+            window.location.href = 'booking.html?clinic=' + encodeURIComponent(clinicName);
+        }
+
+        // Initialize search listener
+        document.getElementById('searchInput').addEventListener('input', filterClinics);
+    </script>
+</body>
+</html>
