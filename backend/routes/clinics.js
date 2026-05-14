@@ -168,6 +168,23 @@ router.get('/nearest', async (req, res) => {
 router.post('/:id/doctors', authMiddleware, roleCheck('clinic_admin', 'admin'), async (req, res) => {
   try {
     const { firstName, lastName, email, password, specialty, licenseNumber } = req.body;
+    
+    // Backend Best Practices: Input Validation
+    if (!email || !password || !firstName || !lastName) {
+      return res.status(400).json({ success: false, message: 'Please provide all required fields (firstName, lastName, email, password)' });
+    }
+    
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ success: false, message: 'Invalid email format' });
+    }
+    
+    // Password strength validation
+    if (password.length < 8) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 8 characters long' });
+    }
+
     const clinic = await Clinic.findById(req.params.id);
 
     if (!clinic) return res.status(404).json({ success: false, message: 'Clinic not found' });
