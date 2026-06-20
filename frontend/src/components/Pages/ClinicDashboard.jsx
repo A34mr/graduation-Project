@@ -493,20 +493,14 @@ export default function ClinicDashboard() {
       </div>
 
       {isAddDoctorOpen && (
-        <AddDoctorModal
+        <AddDoctorByEmailModal
           specialties={specialtiesList}
+          clinicId={clinic._id}
           onClose={() => setIsAddDoctorOpen(false)}
-          onSave={async (doctor) => {
-            try {
-              const res = await api.post(`/api/clinics/${clinic._id}/doctors`, doctor);
-              if (res.data.success) {
-                const clinicRes = await api.get('/api/clinics/my-clinic');
-                setDoctors(clinicRes.data.clinic.doctors || []);
-                setIsAddDoctorOpen(false);
-              }
-            } catch (err) {
-              alert(err.response?.data?.message || 'Failed to add doctor');
-            }
+          onSuccess={async () => {
+            const clinicRes = await api.get('/api/clinics/my-clinic');
+            setDoctors(clinicRes.data.clinic.doctors || []);
+            setIsAddDoctorOpen(false);
           }}
         />
       )}
@@ -630,29 +624,199 @@ function ProfileItem({ label, value }) {
   );
 }
 
-function AddDoctorModal({ specialties, onClose, onSave }) {
-  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '', specialty: '', licenseNumber: '' });
+function AddDoctorByEmailModal({ specialties, clinicId, onClose, onSuccess }) {
+  const [step, setStep] = useState('search'); // 'search' | 'confirm'
+  const [email, setEmail] = useState('');
+  const [searching, setSearching] = useState(false);
+  const [foundDoctor, setFoundDoctor] = useState(null);
+  const [searchError, setSearchError] = useState('');
+  const [specialty, setSpecialty] = useState('');
+  const [licenseNumber, setLicenseNumber] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  const handleSearch = async () => {
+    if (!email.trim()) return;
+    setSearching(true);
+    setSearchError('');
+    setFoundDoctor(null);
+    try {
+      const res = await api.get(`/api/clinics/search-doctor?email=${encodeURIComponent(email.trim())}`);
+      if (res.data.success) {
+        const doc = res.data.doctor;
+        setFoundDoctor(doc);
+        setSpecialty(doc.specialty || '');
+        setLicenseNumber(doc.licenseNumber || '');
+        setStep('confirm');
+      }
+    } catch (err) {
+      setSearchError(err.response?.data?.message || 'Doctor not found. Make sure they are registered on the website with the "Doctor" role.');
+    } finally {
+      setSearching(false);
+    }
+  };
+
+  const handleAdd = async () => {
+    setSaving(true);
+    try {
+      const res = await api.post(`/api/clinics/${clinicId}/doctors/add-existing`, {
+        email: foundDoctor.email,
+        specialty,
+        licenseNumber
+      });
+      if (res.data.success) {
+        await onSuccess();
+      }
+    } catch (err) {
+      setSearchError(err.response?.data?.message || 'Failed to add doctor to clinic.');
+      setStep('confirm');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
-      <div style={{ background: '#fff', padding: '40px', borderRadius: '24px', width: '500px', maxWidth: '90%' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '24px' }}>Add New Doctor</h2>
-        <div style={{ display: 'grid', gap: '16px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-            <input placeholder="First Name" style={modalInputStyle} onChange={e => setForm({ ...form, firstName: e.target.value })} />
-            <input placeholder="Last Name" style={modalInputStyle} onChange={e => setForm({ ...form, lastName: e.target.value })} />
+    <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(15,23,42,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, backdropFilter: 'blur(6px)' }}>
+      <div style={{ background: '#fff', padding: '40px', borderRadius: '28px', width: '520px', maxWidth: '95%', boxShadow: '0 30px 60px rgba(0,0,0,0.18)', border: '1px solid #e2e8f0' }}>
+
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
+          <div>
+            <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#1e293b', marginBottom: '4px' }}>Add Doctor to Clinic</h2>
+            <p style={{ fontSize: '13px', color: '#64748b' }}>The doctor must be registered on the website with the <strong>Doctor</strong> role.</p>
           </div>
-          <input placeholder="Email" type="email" style={modalInputStyle} onChange={e => setForm({ ...form, email: e.target.value })} />
-          <input placeholder="Password" type="password" style={modalInputStyle} onChange={e => setForm({ ...form, password: e.target.value })} />
-          <select style={modalInputStyle} onChange={e => setForm({ ...form, specialty: e.target.value })}>
-            <option value="">Select Specialty</option>
-            {specialties.map(s => <option key={s} value={s}>{s}</option>)}
-          </select>
-          <input placeholder="License Number" style={modalInputStyle} onChange={e => setForm({ ...form, licenseNumber: e.target.value })} />
-          <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
-            <button onClick={onClose} style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer' }}>Cancel</button>
-            <button onClick={() => onSave(form)} style={{ flex: 1, padding: '12px', borderRadius: '12px', border: 'none', background: '#1a73e8', color: '#fff', fontWeight: '600', cursor: 'pointer' }}>Add Doctor</button>
-          </div>
+          <button onClick={onClose} style={{ background: '#f1f5f9', border: 'none', width: '38px', height: '38px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b', fontSize: '18px' }}>✕</button>
         </div>
+
+        {/* Step indicators */}
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '28px' }}>
+          {['Search Doctor', 'Confirm & Add'].map((label, i) => (
+            <div key={i} style={{ flex: 1, textAlign: 'center', padding: '8px', borderRadius: '10px', fontSize: '12px', fontWeight: '700',
+              background: (i === 0 && step === 'search') || (i === 1 && step === 'confirm') ? '#eff6ff' : '#f8fafc',
+              color: (i === 0 && step === 'search') || (i === 1 && step === 'confirm') ? '#1a73e8' : '#94a3b8',
+              border: (i === 0 && step === 'search') || (i === 1 && step === 'confirm') ? '1.5px solid #bfdbfe' : '1.5px solid #e2e8f0'
+            }}>
+              {i + 1}. {label}
+            </div>
+          ))}
+        </div>
+
+        {/* Step 1: Search */}
+        {step === 'search' && (
+          <div style={{ display: 'grid', gap: '16px' }}>
+            <div>
+              <label style={{ fontSize: '13px', fontWeight: '600', color: '#475569', display: 'block', marginBottom: '8px' }}>Doctor's Registered Email</label>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <input
+                  type="email"
+                  placeholder="e.g. doctor@example.com"
+                  value={email}
+                  onChange={e => { setEmail(e.target.value); setSearchError(''); }}
+                  onKeyDown={e => e.key === 'Enter' && handleSearch()}
+                  style={{ flex: 1, padding: '12px 16px', borderRadius: '12px', border: '1.5px solid #e2e8f0', background: '#f8fafc', fontSize: '14px', color: '#1e293b', outline: 'none' }}
+                />
+                <button
+                  onClick={handleSearch}
+                  disabled={searching || !email.trim()}
+                  style={{ padding: '12px 20px', borderRadius: '12px', border: 'none', background: searching || !email.trim() ? '#e2e8f0' : '#1a73e8', color: searching || !email.trim() ? '#94a3b8' : '#fff', fontWeight: '700', fontSize: '14px', cursor: searching || !email.trim() ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap', transition: 'all 0.2s' }}
+                >
+                  {searching ? '...' : '🔍 Search'}
+                </button>
+              </div>
+            </div>
+
+            {searchError && (
+              <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '12px', padding: '14px 16px', display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                <span style={{ fontSize: '18px' }}>⚠️</span>
+                <div>
+                  <div style={{ fontWeight: '700', color: '#dc2626', fontSize: '13px', marginBottom: '4px' }}>Doctor Not Found</div>
+                  <div style={{ color: '#7f1d1d', fontSize: '13px', lineHeight: '1.5' }}>{searchError}</div>
+                </div>
+              </div>
+            )}
+
+            <div style={{ background: '#f8fafc', borderRadius: '14px', padding: '16px', border: '1px solid #e2e8f0' }}>
+              <div style={{ fontSize: '12px', fontWeight: '700', color: '#1a73e8', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '10px' }}>ℹ️ How it works</div>
+              <ul style={{ margin: 0, padding: '0 0 0 16px', color: '#475569', fontSize: '13px', lineHeight: '1.8' }}>
+                <li>The doctor must first register on this website</li>
+                <li>They must select <strong>"Doctor"</strong> as their role during signup</li>
+                <li>Then you can search by their registered email and add them here</li>
+              </ul>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
+              <button onClick={onClose} style={{ flex: 1, padding: '13px', borderRadius: '12px', border: '1.5px solid #e2e8f0', background: '#fff', cursor: 'pointer', fontWeight: '600', color: '#475569', fontSize: '14px' }}>Cancel</button>
+            </div>
+          </div>
+        )}
+
+        {/* Step 2: Confirm */}
+        {step === 'confirm' && foundDoctor && (
+          <div style={{ display: 'grid', gap: '20px' }}>
+            {/* Doctor Card */}
+            <div style={{ background: 'linear-gradient(135deg, #eff6ff, #f0fdf4)', borderRadius: '16px', padding: '20px', border: '1.5px solid #bfdbfe', display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{ width: '60px', height: '60px', background: 'linear-gradient(135deg, #1a73e8, #0d47a1)', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '22px', fontWeight: '800', flexShrink: 0 }}>
+                {foundDoctor.firstName?.[0]}{foundDoctor.lastName?.[0]}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                  <span style={{ fontSize: '17px', fontWeight: '800', color: '#1e293b' }}>Dr. {foundDoctor.firstName} {foundDoctor.lastName}</span>
+                  <span style={{ background: '#dcfce7', color: '#16a34a', fontSize: '11px', fontWeight: '700', padding: '2px 8px', borderRadius: '20px' }}>✓ Registered</span>
+                </div>
+                <div style={{ fontSize: '13px', color: '#475569' }}>{foundDoctor.email}</div>
+                {foundDoctor.phone && <div style={{ fontSize: '13px', color: '#64748b' }}>📞 {foundDoctor.phone}</div>}
+              </div>
+            </div>
+
+            {foundDoctor.alreadyInClinic && (
+              <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '12px', padding: '12px 16px', fontSize: '13px', color: '#92400e', display: 'flex', gap: '8px' }}>
+                <span>⚠️</span> This doctor is currently linked to another clinic. Adding them here will move them to your clinic.
+              </div>
+            )}
+
+            {/* Specialty & License */}
+            <div style={{ display: 'grid', gap: '14px' }}>
+              <div>
+                <label style={{ fontSize: '13px', fontWeight: '600', color: '#475569', display: 'block', marginBottom: '8px' }}>Specialty</label>
+                <select
+                  value={specialty}
+                  onChange={e => setSpecialty(e.target.value)}
+                  style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', border: '1.5px solid #e2e8f0', background: '#f8fafc', fontSize: '14px', color: '#1e293b' }}
+                >
+                  <option value="">Select Specialty</option>
+                  {specialties.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </div>
+              <div>
+                <label style={{ fontSize: '13px', fontWeight: '600', color: '#475569', display: 'block', marginBottom: '8px' }}>License Number</label>
+                <input
+                  value={licenseNumber}
+                  onChange={e => setLicenseNumber(e.target.value)}
+                  placeholder="e.g. LIC-12345 (leave blank if unknown)"
+                  style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', border: '1.5px solid #e2e8f0', background: '#f8fafc', fontSize: '14px', color: '#1e293b', boxSizing: 'border-box' }}
+                />
+              </div>
+            </div>
+
+            {searchError && (
+              <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '12px', padding: '12px 16px', color: '#dc2626', fontSize: '13px' }}>
+                ⚠️ {searchError}
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button onClick={() => { setStep('search'); setFoundDoctor(null); setSearchError(''); }} style={{ flex: 1, padding: '13px', borderRadius: '12px', border: '1.5px solid #e2e8f0', background: '#fff', cursor: 'pointer', fontWeight: '600', color: '#475569', fontSize: '14px' }}>
+                ← Back
+              </button>
+              <button
+                onClick={handleAdd}
+                disabled={saving || !specialty}
+                style={{ flex: 2, padding: '13px', borderRadius: '12px', border: 'none', background: saving || !specialty ? '#e2e8f0' : 'linear-gradient(135deg, #1a73e8, #0d47a1)', color: saving || !specialty ? '#94a3b8' : '#fff', fontWeight: '700', fontSize: '14px', cursor: saving || !specialty ? 'not-allowed' : 'pointer', transition: 'all 0.2s' }}
+              >
+                {saving ? '⏳ Adding...' : `✅ Add Dr. ${foundDoctor.lastName} to Clinic`}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

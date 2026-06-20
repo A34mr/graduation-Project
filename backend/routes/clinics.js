@@ -164,6 +164,122 @@ router.get('/nearest', async (req, res) => {
   }
 });
 
+// Search for a registered doctor user by email (for clinic admin use)
+router.get('/search-doctor', authMiddleware, roleCheck('clinic_admin', 'admin'), async (req, res) => {
+  try {
+    const { email } = req.query;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email is required' });
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase(), role: 'doctor', isActive: true });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'No registered doctor found with that email. The user must be registered on the website with the "doctor" role.'
+      });
+    }
+
+    // Check if this doctor already has a profile
+    const doctorProfile = await DoctorProfile.findOne({ user: user._id });
+
+    res.json({
+      success: true,
+      doctor: {
+        userId: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone,
+        hasProfile: !!doctorProfile,
+        specialty: doctorProfile?.specialty || null,
+        licenseNumber: doctorProfile?.licenseNumber || null,
+        profileId: doctorProfile?._id || null,
+        alreadyInClinic: doctorProfile?.clinic ? true : false,
+        clinicId: doctorProfile?.clinic || null
+      }
+    });
+  } catch (error) {
+    console.error('Search doctor error:', error.message);
+    res.status(500).json({ success: false, message: 'Failed to search for doctor' });
+  }
+});
+
+// Add an already-registered doctor to the clinic by their email
+router.post('/:id/doctors/add-existing', authMiddleware, roleCheck('clinic_admin', 'admin'), async (req, res) => {
+  try {
+    const { email, specialty, licenseNumber } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Doctor email is required' });
+    }
+
+    const clinic = await Clinic.findById(req.params.id);
+    if (!clinic) return res.status(404).json({ success: false, message: 'Clinic not found' });
+
+    // Check permissions — compare both as strings to avoid ObjectId type mismatch
+    if (req.user.role !== 'admin' && clinic.admin.toString() !== req.userId.toString()) {
+      return res.status(403).json({ success: false, message: 'Access denied' });
+    }
+
+    // Find the registered doctor user
+    const user = await User.findOne({ email: email.toLowerCase(), role: 'doctor', isActive: true });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'No registered doctor found with that email. The user must be registered on the website with the "doctor" role.'
+      });
+    }
+
+    // Check if doctor profile exists
+    let doctorProfile = await DoctorProfile.findOne({ user: user._id });
+
+    if (doctorProfile) {
+      // Check if already linked to THIS clinic
+      if (clinic.doctors.includes(doctorProfile._id)) {
+        return res.status(400).json({ success: false, message: 'This doctor is already in your clinic' });
+      }
+      // Update the profile to link to this clinic
+      doctorProfile.clinic = clinic._id;
+      if (specialty) doctorProfile.specialty = specialty;
+      if (licenseNumber) doctorProfile.licenseNumber = licenseNumber;
+      doctorProfile.isVerified = true;
+      await doctorProfile.save();
+    } else {
+      // Create a new doctor profile for this user
+      doctorProfile = await DoctorProfile.create({
+        user: user._id,
+        clinic: clinic._id,
+        specialty: specialty || 'General Dentist',
+        licenseNumber: licenseNumber || 'PENDING',
+        isVerified: true
+      });
+    }
+
+    // Add to clinic's doctors list
+    clinic.doctors.push(doctorProfile._id);
+    await clinic.save();
+
+    res.status(201).json({
+      success: true,
+      message: `Dr. ${user.firstName} ${user.lastName} has been added to your clinic successfully.`,
+      doctor: {
+        ...doctorProfile.toObject(),
+        user: {
+          _id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phone: user.phone
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Add existing doctor error:', error.message);
+    res.status(500).json({ success: false, message: 'Failed to add doctor to clinic' });
+  }
+});
+
 // Add a new doctor to the clinic
 router.post('/:id/doctors', authMiddleware, roleCheck('clinic_admin', 'admin'), async (req, res) => {
   try {
