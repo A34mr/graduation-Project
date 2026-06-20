@@ -25,7 +25,9 @@ const server = http.createServer(app);
 // Socket.IO setup for real-time chat
 const io = socketIo(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: process.env.NODE_ENV === 'production'
+      ? false // In production, frontend is served from same origin
+      : (process.env.FRONTEND_URL || 'http://localhost:3000'),
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -69,11 +71,14 @@ const corsOptions = {
       process.env.FRONTEND_URL || 'http://localhost:3000',
       'http://localhost:5173'
     ];
-    // Allow requests with no origin (server-to-server, mobile apps)
+    // In production, allow same-origin requests (no origin header from server-served pages)
     if (!origin) return callback(null, true);
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      // In production, also allow any origin that matches the server itself
+      const serverUrl = `http://localhost:${process.env.PORT || 5000}`;
+      if (origin === serverUrl) return callback(null, true);
       callback(new Error('Not allowed by CORS'));
     }
   },
@@ -248,7 +253,20 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler
+// ── Serve Frontend in Production ──
+if (process.env.NODE_ENV === 'production') {
+  const frontendPath = path.join(__dirname, '../frontend/dist');
+  app.use(express.static(frontendPath));
+  // SPA fallback: serve index.html for all non-API routes
+  app.get('{*path}', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads') || req.path.startsWith('/socket.io')) {
+      return next();
+    }
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  });
+}
+
+// 404 handler (API routes only in production)
 app.use((req, res) => {
   res.status(404).json({
     success: false,
